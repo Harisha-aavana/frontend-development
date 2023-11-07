@@ -201,7 +201,7 @@ class Log(db.Model):
 class Comments(db.Model):
     # __tablename__ = 'comments'
     comment_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    comment = db.Column(db.String(800))
+    comment = db.Column(db.String(1200))
     comment_type = db.Column(db.String(10))
     task_id = db.Column(db.Integer, db.ForeignKey('task.task_id'), nullable=False)
     created_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

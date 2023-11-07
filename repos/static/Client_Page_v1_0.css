@@ -1,0 +1,252 @@
+
+body
+{
+    background-color: #F8F8FE;
+    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue";
+}
+
+#Dashboard-Side-Navigation_Pane
+{
+    height: 100vh;
+    background-color: #1D6CD6;
+}
+
+#Dashboard-Main_Header-Row
+{
+    height: 100px ;
+    background-color: white;
+    /* border-style: solid;
+    border-color: white; */
+    box-shadow: 0px 15px 10px -15px #111
+}
+
+#Dashboard-Main-Title-Text
+{
+    margin-top: 20px;
+    font-size: 36px;
+    color: #1D6CD6;
+}
+
+#Dashboard-Main-Welcome-Text
+{
+    margin-top: 50px;
+    margin-left: 40px;
+    font-size: 16px;
+    color: #828282;
+}
+
+#Dashboard-Logout-Icon
+{
+    margin-top: 35px;
+    width: 40px;
+}
+
+#Dashboard-Logout-Popup-Row
+{
+    font-family: 'BentonSans Regular', sans-serif;
+    font-size: 13px;
+    background-color: #F8F8FE;
+}
+
+#Dashboard-Main-Info-Pane
+{
+    margin-top: 80px;
+}
+
+#Dashboard-Main-Info-Product-Title-Text
+{
+    font-size: 24px;
+    margin-left: 100px;
+}
+#Dashboard-Top-Search-Bar
+{
+    border-style: solid;
+    border-color: #dee2e6;
+    background-color: white;
+    border-radius: 23px !important;
+    box-shadow: 0px 15px 10px -15px #111;
+    /* margin-left: 100px !important; */
+
+}
+
+#Dashboard-Search-Icon
+{   
+    /* margin-left: 100px; */
+    font-size: 12px;
+    margin-top: 11px;
+    margin-left: 10px;
+}
+
+#search-input::placeholder
+{
+    font-size: 13px;
+    color: #828282;
+    opacity: 0.5;
+    font-family: 'BentonSans Regular', sans-serif;
+}
+
+#search-input
+{
+    border-style: none;
+    margin-left: -50px;
+    font-size: 14px;
+    color: #828282;
+    font-family: 'BentonSans Regular', sans-serif;
+
+}
+
+.form-control:focus,.form-control:active {
+    outline: none !important;
+    box-shadow: none;
+ }
+
+ #Dashboard-Main-Info-Product-Details
+ {
+    height: 1000px;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0px 15px 10px -15px #111
+
+ }
+
+#Dashboard-Main-Info-Inner-Details-Box
+{
+    margin-top: 30px;
+}
+
+#Dashboard-Show-Columns-Title
+{
+    margin-top: 10px;
+    margin-left: 125px;
+    color: #828282;
+    font-family: 'BentonSans Regular', sans-serif;
+    font-size: 14px;
+}
+
+#Dashboard-Show-Columns-Button
+{
+    border: 1px;
+    border-style: solid;
+    border-color: #D4D2D2;
+    font-size: 14px;
+    margin-top: 2px ;
+    margin-left: -15px;
+} 
+
+#Dashboard-Show-Columns-Dropdown_List
+{
+    padding-left: 10px;
+    font-family: 'BentonSans Regular', sans-serif;
+    font-size: 13px;
+}
+
+#Dashboard-Download-File-Popup-Row
+{
+    /* font-family: "BentonSans Regular"; */
+    font-size: 12px;
+    background-color: white;
+    font-family: 'BentonSans Regular', sans-serif;
+    font-weight: 800;
+}
+
+.dropdown-item
+{
+    margin-left: -15px;
+    margin-top: -1px;
+}
+
+#Dashboard-Download-Files-Button
+{
+    margin-left: 150px;
+    font-size: 14px;
+    font-family: 'BentonSans Regular', sans-serif;  
+}
+
+th, thead
+{
+    position: sticky;
+    top: 0;
+    background-color: #F8F8FE !important;
+    font-size: 14px;
+}
+
+#Main-Data-Table-Content
+{
+    margin-top: 50px;
+}
+
+table.dataTable.no-footer
+{
+    border-bottom: null !important;
+}
+
+table.dataTable
+{
+    border-collapse: null !important;
+}
+
+#Main-Data-Table-Content_info
+{
+    font-size: 14px;
+}
+
+#Main-Data-Table-Content_length label select
+{
+    border: 1px solid #D4D2D2;
+}
+
+#Main-Data-Table-Content_length
+{
+    font-size: 14px;
+}
+
+#Dashboard-Data-Table-Content-Box
+{
+    margin-top: 50px;
+}
+
+.Upload-Files-Button
+{
+    font-size: 12px;
+    font-family: 'BentonSans Regular', sans-serif;
+    margin-top: -5px;
+}
+
+table tbody tr td
+{
+    font-size: 14px;
+    font-family: 'BentonSans Regular', sans-serif;
+    padding-top: 12px !important;
+}
+
+.modal
+{
+    /* font-size: 14px; */
+    font-family: 'BentonSans Regular', sans-serif;
+}
+
+.fa-trash
+{
+    /* margin-left: 10px; */
+    margin-top: -10px;
+}
+
+.form-check-input:focus,.form-check-input:active {
+    outline: none !important;
+    box-shadow: none;
+ }
+
+ .form-check-input:after {
+    outline: none !important;
+    box-shadow: none;
+ }
+
+ .btn:focus,.btn:active {
+    border-style: none !important;
+ }
+
+ .dropdown-menu-right {
+    top: -40px !important;
+    left: 100px !important;
+ }

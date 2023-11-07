@@ -51,6 +51,7 @@
 <script>
     var removeDocument;
     $(document).ready(function (){
+        console.log("I am here 1")
         removeDocument = function(taskId, docId) {
             var elementToRemove = document.getElementById(`document-${taskId}-${docId}`);
             if (elementToRemove) {
@@ -73,6 +74,9 @@
 
             }
         }
+
+        console.log("I am here 2")
+        
         var taskDatatable = $('#taskTable').DataTable({
             dom: 'B<"top"lf>t<"bottom"ip><"clear">', // Custom positioning
             buttons: [
@@ -102,6 +106,9 @@
                     { data: 'document_status'},
                 ]
         });
+
+        console.log("Hello")
+        console.log(taskDatatable)
 
         // Create search inputs for each column
         taskDatatable.columns().every(function() {
@@ -143,6 +150,8 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
+                        console.log("Here !!!")
+                        console.log(response)
                         let task_id = response['task_id'];
                         let doc_id = response['saved_document_id'];
                         let file_link = response['file_path'];
