@@ -2,7 +2,7 @@ import datetime
 from flask import Blueprint, request, jsonify, render_template, url_for, current_app, session
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from repos.modules import Task, Document, Project, Log
+from repos.modules import Task, Document, Project, Log, Files, Comments
 from sqlalchemy import or_
 import os
 from repos import db
@@ -18,14 +18,14 @@ def aavana_home():
     if not current_user.is_authenticated or 'PROJECT_IDS' not in session:
         logout()
 
-
     if request.method == 'POST':
         all_tasks_results = Task.query.all()
         mainTableDataList = []
-        headers = ["UID","Entity Name","Location Code","Type of License","State","District","Locality","Project_ID","Assigned Date","License Expiry Date", "Status", "Document Status", "Comment","",""]
+        headers = ["UID", "Entity Name", "Location Code", "Type of License", "State", "District", "Locality",
+                   "Project_ID", "Assigned Date", "License Expiry Date", "Status", "Document Status", "Comment", "", ""]
         mainTableDataList.append(headers)
         for row in all_tasks_results:
-            rowLevelData=[]
+            rowLevelData = []
             task_id = row.task_id
             document_name = Document.query.filter(Document.task_id == task_id, Document.file_status == 0).all()
             project_name = Project.query.with_entities(Project.project_name).filter_by(id=row.project_id).first()[0]
@@ -37,7 +37,8 @@ def aavana_home():
             locality = row.locality
             project_id = row.project_id
             assigned_date = row.created_time.strftime('%d/%m/%Y') if row.created_time is not None else ''
-            licence_expiry_date = row.licence_expiry_date.strftime('%d/%m/%Y') if row.licence_expiry_date is not None else ''
+            licence_expiry_date = row.licence_expiry_date.strftime(
+                '%d/%m/%Y') if row.licence_expiry_date is not None else ''
 
             status = row.status
             if document_name:
@@ -64,16 +65,13 @@ def aavana_home():
 
             mainTableDataList.append(rowLevelData)
 
-        print(mainTableDataList)
-        
         response = {
-                'dataArray': mainTableDataList,
-            }
-        
-        
+            'dataArray': mainTableDataList,
+        }
+
         return jsonify(response)
 
-    return render_template('aavana_home_v2.html')
+    return render_template('aavana_home.html')
 
 
 @aavana.route('/upload', methods=['POST'])
@@ -147,4 +145,64 @@ def delete_document():
         response = {"error": "Document not found"}
 
     return jsonify(response)
+
+
+@aavana.route('/file_type', methods=['GET'])
+def file_type():
+    file_names = Files.query.filter_by(filename_status=0).all()
+    file_info = {}
+    for file in file_names:
+        file_info[file.id] = file.filename
+
+    return jsonify(file_info)
+
+
+@aavana.route('/add_comment', methods=['POST', 'GET'])
+@login_required
+def add_comment():
+    if request.method == 'POST':
+        task_id = request.form.get('task_id')
+        description = request.form.get('comment')
+        type = request.form.get('comment_type')
+        current_date = datetime.datetime.now()
+        try:
+            message = f'Comment added to task {task_id}'
+            comments = Comments(comment=description, comment_type=type, task_id=task_id, created_date=current_date, modified_date='', comment_status=0)
+            log_info = Log(action=message, table_name='comment', user_id=current_user.id,
+                           action_time=current_date)
+            db.session.add(comments)
+            db.session.add(log_info)
+            db.session.commit()
+            return {"message": "Comment Added Successfully."}
+        except:
+            # Handle exceptions or errors here
+            db.session.rollback()
+            return "An error occurred: " + str(e)
+
+    return {'message': 'Invalid request method'}
+
+
+@aavana.route('/getCommentsHistory', methods=['POST'])
+@login_required
+def getCommentsHistory():
+    if request.method == 'POST':
+        task_id = request.form.get('task_id')
+        print(task_id)
+        try:
+            comments_data = Comments.query.order_by(Comments.created_date.desc()).all()
+            data = []
+            for comment in comments_data:
+                comment_details = comment.comment
+                commented_date = comment.created_date.strftime('%d/%m/%Y')
+                type = comment.comment_type
+                comment = [commented_date, comment_details, type]
+                data.append(comment)
+            return data
+
+        except Exception as e:
+            return "An error occurred: " + str(e)
+
+    return {'message': 'Invalid request method'}
+
+
 
