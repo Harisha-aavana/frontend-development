@@ -22,7 +22,7 @@ def aavana_home():
         all_tasks_results = Task.query.all()
         mainTableDataList = []
         headers = ["UID", "Entity Name", "Location Code", "Type of License", "State", "District", "Locality",
-                   "Project_ID", "Assigned Date", "License Expiry Date", "Status", "Document Status", "Comment", "", ""]
+                   "Project_ID", "Assigned Date", "License Expiry Date", "Status", "Document Status", "", ""]
         mainTableDataList.append(headers)
         for row in all_tasks_results:
             rowLevelData = []
@@ -45,7 +45,6 @@ def aavana_home():
                 document_status = "Completed"
             else:
                 document_status = "Pending"
-            comment = ""
 
             rowLevelData.append(task_id)
             rowLevelData.append(entity_name)
@@ -59,7 +58,6 @@ def aavana_home():
             rowLevelData.append(licence_expiry_date)
             rowLevelData.append(status)
             rowLevelData.append(document_status)
-            rowLevelData.append(comment)
             rowLevelData.append("")
             rowLevelData.append("")
 
@@ -71,12 +69,13 @@ def aavana_home():
 
         return jsonify(response)
 
-    return render_template('aavana_home.html')
+    return render_template('aavana_home_v2.html')
 
 
 @aavana.route('/upload', methods=['POST'])
 def upload_file():
     try:
+        print(request.files)
         try:
             if 'file' not in request.files:
                 return jsonify({"error": "No file part"}), 400
@@ -86,7 +85,6 @@ def upload_file():
             project_id = request.form['project_id']
             if file.filename == '':
                 return jsonify({"error": "No selected file"}), 400
-
             document_data = {}
             document_data['task_id'] = task_id
             upload_folder = current_app.config.get('UPLOAD_FOLDER')
@@ -100,9 +98,8 @@ def upload_file():
             document_data['filename'] = file.filename
             file_path = os.path.join(task_dir, filename)
             document_data['file_path'] = file_path[5:]
-
             file.save(file_path)
-
+            
             document_info = Document(file_name=filename, task_id=task_id)
             db.session.add(document_info)
             db.session.flush()

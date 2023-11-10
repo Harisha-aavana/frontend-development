@@ -3,37 +3,14 @@
 // var dataArray = [["UID","Entity Name","Location Code","Type of License","State","District","Locality","Assigned Date","Document Status", "Comment","",""],
 // ["123","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
 // ["456","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["789","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""],
-// ["1","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
-// ["2","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["3","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""],
-// ["4","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
-// ["5","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["6","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""],
-// ["7","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
-// ["8","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["9","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""],
-// ["901","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
-// ["902","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["903","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""],
-// ["904","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
-// ["905","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["906","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""],
-// ["907","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
-// ["908","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["909","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""],
-// ["910","Bharti Private Limited","PO-12124","Water OC","Karnataka","Bangalore","Gokul Road","19/06/2023","Pending","","",""],
-// ["911","ABC Private Limited","PO-12134245","Air OC","Karnataka","Mangalore","HE Road","19/07/2023","Pending","","",""],
-// ["912","DEF Private Limited","PO-17354426","Wood OC","Karnataka","Tumkur","SS Road","19/01/2023","Pending","","",""]
 // ]
 
-var optionsList = ["License","Applied Copy","Receipt Copy","Challan","Acknowledgement","License cum Receipt","Bank Charges","Acknowledgement and Receipt","Others"]
-var fileTypeList = [[1,"License"],[2,"Applied Copy"],[3,"Receipt Copy"],[4,"Challan"],[5,"Acknowledgement"],[6,"License cum Receipt"],[7,"Bank Charges"],[8,"Acknowledgement and Receipt"],[9,"Others"]]
+// var optionsList = ["License","Applied Copy","Receipt Copy","Challan","Acknowledgement","License cum Receipt","Bank Charges","Acknowledgement and Receipt","Others"]
+// var fileTypeList = [[1,"License"],[2,"Applied Copy"],[3,"Receipt Copy"],[4,"Challan"],[5,"Acknowledgement"],[6,"License cum Receipt"],[7,"Bank Charges"],[8,"Acknowledgement and Receipt"],[9,"Others"]]
 
 // var optionsList=[];
 var columnsToHide = {"Locality":6,"Project_ID":7} ;
 var columnsIndexToHide = [6,7] ;
-
 var assignedDateColumn = 8;
 
 
@@ -42,7 +19,7 @@ $(document).ready(function(){
     $.ajax({
         type: "POST",
         url: "/aavana_home",
-        data: uploadFileObject,
+        data: uploadFileObject, 
         dataType: 'json',
         success: function(res){
             dataArray = res["dataArray"]
@@ -55,25 +32,25 @@ $(document).ready(function(){
             populateNavigationPan(headerList)
             mainSearchBar()
             updateCountdown()
-
-            // $.ajax({
-            //     type:'GET',
-            //     url:"/file_type",
-            //     success: function(res){
-            //         var fileTypeList = Object.entries(res);
-            //         optionsList = Object.values(res);
+            
+            $.ajax({
+                type:'GET',
+                url:"/file_type",
+                success: function(res){
+                    var fileTypeList = Object.entries(res);
+                    optionsList = Object.values(res);
 
                     const Upload_File_button_nodeList = document.querySelectorAll('[id^="Upload-Files-Button-Row"]');
                     for(let i=0;i<Upload_File_button_nodeList.length;i++)
-                    {
+                    {   
                         Upload_File_button_nodeList[i].addEventListener('click', function handleClick() {
                             document.getElementById('Dashboard-Modal-Table-Body-Row').innerHTML='';
                             populateUploadFilesPage(fileTypeList,optionsList,Upload_File_button_nodeList[i].getAttribute('data-uid'),Upload_File_button_nodeList[i].getAttribute('data-pid'))
 
                         });
                     }
-                // }
-            // })
+                }
+            })
         }
     });
 
@@ -81,8 +58,8 @@ $(document).ready(function(){
 
 
 function populateTable(dataArray)
-{
-
+{   
+    
     var tableHead = document.getElementById('Dashboard-Data-Table-Header-Row');
     var tableBody = document.getElementById('Dashboard-Data-Table-Body-Row');
 
@@ -90,7 +67,7 @@ function populateTable(dataArray)
     {
         // console.log("Here !!!!")
         var tr_element = document.createElement('tr');
-
+        
         var button_element = document.createElement('a');
         button_element.classList.add("Upload-Files-Button")
         var button_toggle_attr = document.createAttribute('href')
@@ -110,15 +87,18 @@ function populateTable(dataArray)
         button_element.setAttributeNode(button_id_attr)
 
         button_element.innerText="Document Type"
-
+        
 
         if(i==0)
         {
             var th_element = document.createElement('th');
             th_element.innerText="Select File Type";
-            tr_element.appendChild(th_element)
+            var th_style_attr = document.createAttribute('style')
+            th_style_attr.value="width:6%"
+            th_element.setAttributeNode(th_style_attr)
+            tr_element.appendChild(th_element) 
         }
-
+        
         else
         {
             // console.log(i)
@@ -131,8 +111,8 @@ function populateTable(dataArray)
             button_element.innerHTML='<i class="fa-solid fa-file" title="Add Documents" style="cursor:pointer;font-size:20px;margin-left:40px;"></i>'
 
             td_element.appendChild(button_element)
-            tr_element.appendChild(td_element)
-
+            tr_element.appendChild(td_element) 
+        
         }
 
         for(let j=1;j<dataArray[i].length;j++)
@@ -144,7 +124,7 @@ function populateTable(dataArray)
                 th_element.innerText=dataArray[i][j];
                 if(columnsIndexToHide.includes(j))
                 {
-
+                    
                     var th_style_attr = document.createAttribute('style')
                     th_style_attr.value = "display:none"
                     th_element.setAttributeNode(th_style_attr)
@@ -153,8 +133,8 @@ function populateTable(dataArray)
                     th_id_attr.value = "Main-Data-Table-Column-"+(j+1)
                     th_element.setAttributeNode(th_id_attr)
                 }
-                tr_element.appendChild(th_element)
-
+                tr_element.appendChild(th_element)    
+                      
             }
 
             else if(j==dataArray[i].length-2)
@@ -167,14 +147,14 @@ function populateTable(dataArray)
                 anchor_toggle_attr.value="#"
                 var anchor_toggle_attr = document.createAttribute('data-bs-toggle')
                 anchor_toggle_attr.value="modal"
-
+                
                 var anchor_id_attr = document.createAttribute('id')
                 anchor_id_attr.value = "Add-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
                 var anchor_uid_attr = document.createAttribute('data-UID')
-
+                
 
                 anchor_element.setAttributeNode(anchor_toggle_attr)
-
+                
                 anchor_element.setAttributeNode(anchor_id_attr)
 
                 anchor_uid_attr.value=dataArray[i][0]
@@ -184,7 +164,7 @@ function populateTable(dataArray)
                 anchor_target_attr.value="openAddCommentModal("+dataArray[i][0]+","+i+")"
                 anchor_element.setAttributeNode(anchor_target_attr)
 
-                anchor_element.innerHTML='<i class="fa-sharp fa-solid fa-commenting" title="Add Comments" style="cursor:pointer;font-size:15px;margin-left:40px;"></i>'
+                anchor_element.innerHTML='<i class="fa-sharp fa-solid fa-commenting" title="Add Comments" style="cursor:pointer;font-size:15px;"></i>'
 
                 td_element.appendChild(anchor_element)
 
@@ -207,7 +187,7 @@ function populateTable(dataArray)
                 var anchor_id_attr_2 = document.createAttribute('id')
                 anchor_id_attr_2.value = "Edit-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
                 var anchor_uid_attr_2 = document.createAttribute('data-UID')
-
+                
 
                 anchor_element_2.setAttributeNode(anchor_toggle_attr_2)
                 anchor_element_2.setAttributeNode(anchor_target_attr_2)
@@ -220,7 +200,7 @@ function populateTable(dataArray)
                 anchor_target_attr_2.value="openEditCommentModal("+dataArray[i][0]+","+i+")"
                 anchor_element_2.setAttributeNode(anchor_target_attr_2)
 
-                anchor_element_2.innerHTML='<i class="fa-sharp fa-solid fa-pen-to-square" title="Edit Comments" style="cursor:pointer;font-size:15px;margin-left:-40px;"></i>'
+                anchor_element_2.innerHTML='<i class="fa-sharp fa-solid fa-pen-to-square" title="Edit Comments" style="cursor:pointer;font-size:15px;margin-left:-30px;"></i>'
 
                 td_element.appendChild(anchor_element_2)
 
@@ -241,7 +221,7 @@ function populateTable(dataArray)
                 }
                 if(columnsIndexToHide.includes(j))
                 {
-
+                    
                     var td_style_attr = document.createAttribute('style')
                     td_style_attr.value = "display:none"
                     td_element.setAttributeNode(td_style_attr)
@@ -251,7 +231,7 @@ function populateTable(dataArray)
                     td_element.setAttributeNode(td_id_attr)
                 }
 
-                tr_element.appendChild(td_element)
+                tr_element.appendChild(td_element) 
                 var tr_id_attr = document.createAttribute('id')
                 tr_id_attr.value = "tablebody_tr_"+dataArray[i][0]
                 tr_element.setAttributeNode(tr_id_attr)
@@ -264,7 +244,7 @@ function populateTable(dataArray)
         {
             tableHead.appendChild(tr_element)
         }
-
+        
         else
         {
             tableBody.appendChild(tr_element)
@@ -280,16 +260,16 @@ function populateTable(dataArray)
             { orderable: true, className: 'reorder', type: 'custom-date', targets: 8 },
             { orderable: false, targets: '_all' }
         ]
-
+    
     });
 
     var showColumnsDropdownElement = document.getElementById("Dashboard-Show-Columns-Dropdown_List")
     showColumnsDropdownElement.addEventListener('change', function(){
 
         var checkboxes = document.querySelectorAll("#Dashboard-Show-Columns-Dropdown_List .form-check-input");
-
-        // Starting from index, because "Basic Columns" will be by-default cehcked all the time and it will be at index 0
-        for (var i = 1; i < checkboxes.length; i++)
+    
+        // Starting from index, because "Basic Columns" will be by-default checked all the time and it will be at index 0
+        for (var i = 1; i < checkboxes.length; i++) 
         {
             var selectedColumn = checkboxes[i].value;
             var indexforColumn = columnsToHide[selectedColumn]
@@ -298,7 +278,7 @@ function populateTable(dataArray)
             for(let j=0;j<elementColumnsList.length;j++)
             {
                 var elementColumns = elementColumnsList[j]
-
+                
                 if (elementColumns.style.display === "none") {
                     elementColumns.style.display = null;
                 } else {
@@ -307,9 +287,18 @@ function populateTable(dataArray)
             }
 
 
-
+            var sideNavColumnsList = document.getElementById("sideColumnSearchBar-"+(indexforColumn))
+    
+            if (sideNavColumnsList.style.display === "none") {
+                sideNavColumnsList.style.display = null;
+            } else {
+                sideNavColumnsList.style.display = "none";
+            }
+            
+            
+            
         }
-
+        
 
     })
 }
@@ -319,18 +308,18 @@ function populateNavigationPan(headerList)
     var sideBar = document.getElementById('Main-Column-Search-Box');
     for(let i=0;i<headerList.length;i++)
     {
-
+        
         if(columnsIndexToHide.includes(i+1))
         {
             var HTML_content = `<div class="row" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
                 <div class="col-md-12">
                     <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
-                    <div class="row"><input id="`+(i+1)+`" class="sideSearchInput" type="search" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="display:none;font-size:12px;color:#828282; padding-top:5px; padding-bottom:5px;font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
+                    <div class="row"><input id="`+(i+1)+`" class="sideSearchInput" type="search" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282; padding-top:5px; padding-bottom:5px;font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
                 </div>
             </div>`
         }
-
-        else
+        
+        else 
         {
             var HTML_content = `<div class="row" style="margin-top: 20px;">
                 <div class="col-md-12">
@@ -339,7 +328,7 @@ function populateNavigationPan(headerList)
                 </div>
             </div>`
         }
-
+        
         sideBar.innerHTML+=HTML_content
     }
 
@@ -366,7 +355,7 @@ function populateUploadFilesPage(fileTypeList,optionsList,argv,pid)
     }
 
     dropdownMenu.innerHTML+=HTML_content;
-
+    
     var tableBody = document.getElementById('Dashboard-Modal-Table-Body-Row');
     tableBody.innerHTML= tableBody.innerHTML;
 
@@ -384,7 +373,7 @@ function populateUploadFilesPage(fileTypeList,optionsList,argv,pid)
                 addCategories(dropdownListNodes[i].value,Row_Key,UID_key,PID_key,1)
             }
 
-            else
+            else 
             {
                 addCategories(dropdownListNodes[i].value,Row_Key,UID_key,PID_key,0)
 
@@ -399,10 +388,10 @@ function addCategories(optionsList,i,argv,pid,add)
 
     var tableBody = document.getElementById('Dashboard-Modal-Table-Body-Row');
 
-    var tr_element = document.createElement('tr');
+    var tr_element = document.createElement('tr');   
     var HTML_content = `<td><div class="form-check"><input class="form-check-input" data-pid="`+pid+`" data-uid="`+argv+`" file_id='`+(i+1)+`' type="checkbox" name="categoryCheckBox" value="`+optionsList+`" id="flexCheckDefault-Row-`+(i+1)+`" onchange="if(document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled==true){document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=false} else {document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=true}" checked><label class="form-check-label" for="flexCheckDefault-Row-`+(i+1)+`"></label></div></td>
     <td file_id='`+(i+1)+`' id="category_sno_`+(i+1)+`">`+optionsList+`</td>
-    <td><form id="Upload-Form-Modal-Input-Row"><input type='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
+    <td><form id="Upload-Form-Modal-Input-Row"><input type='file' name='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
     <td id="Uploaded-File-Name-Row-`+(i+1)+`"></td>
     <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px; display:none" onclick=""><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
 
@@ -415,8 +404,8 @@ function addCategories(optionsList,i,argv,pid,add)
         tr_element.innerHTML=HTML_content;
         tableBody.appendChild(tr_element)
     }
-
-    else
+    
+    else 
     {
         document.getElementById("inner_tablebody_tr_"+argv+"_"+(i+1)).remove()
     }
@@ -432,7 +421,7 @@ function exportTableToExcel(tableID, filename = '')
     XLSX.writeFile(wb, 'Aavana_Product_Summary.xlsx');
 }
 
-function exportToCSV(tableID, filename = '')
+function exportToCSV(tableID, filename = '') 
 {
     const table = document.getElementById(tableID);
     const ws = XLSX.utils.table_to_sheet(table);
@@ -446,7 +435,7 @@ function exportToCSV(tableID, filename = '')
     document.body.removeChild(link);
 }
 
-function exportToPDF(tableID, filename = '')
+function exportToPDF(tableID, filename = '') 
 {
     const table = document.getElementById(tableID);
     const pdf = new jsPDF();
@@ -473,40 +462,42 @@ function addFileUploadList(i,task_id,project_id,inputElement)
 function submitFileForm()
 {
     var allUploadedCategories = document.querySelectorAll("#Dashboard-Modal-Table-Body-Row .form-check-input");
-
+    
     for(let i=0;i<allUploadedCategories.length;i++)
     {
         if(allUploadedCategories[i].checked)
         {
-            var task_id = allUploadedCategories[i].getAttribute('data-uid')  ;
-            var project_id = allUploadedCategories[i].getAttribute('data-pid')  ;
-            var file_id = allUploadedCategories[i].getAttribute('file_id')  ;
+            var task_id = allUploadedCategories[i].getAttribute('data-uid')  ; 
+            var project_id = allUploadedCategories[i].getAttribute('data-pid')  ; 
+            var file_id = allUploadedCategories[i].getAttribute('file_id')  ; 
 
-            var file = document.getElementById("Upload-Files-Modal-Input-Row-"+file_id+"-"+task_id).files[0];
-            if(file)
+            var selectedFile = document.getElementById("Upload-Files-Modal-Input-Row-"+file_id+"-"+task_id).files[0];
+            if(selectedFile)
             {
-                var uploadObj = {
-                    "task_id":task_id,
-                    "project_id":project_id,
-                    "file_id":file_id,
-                    "file":file
-                    }
 
-                    // console.log(uploadObj)
-
-                    // $.ajax({
-                    //     type: "POST",
-                    //     url: "/upload_file",
-                    //     data: uploadObj,
-                    //     dataType: 'json',
-                    //     success: function(document_id){
-                    //         document.getElementById("Uploaded-File-Delete-Row-"+file_id).setAttribute("onclick","deleteFileEntry("+document_id+",inner_tablebody_tr_"+argv+"_"+file_id+";)");
-                    //         location.reload();
-                    //     }
-                    // });
+                    const formData = new FormData()
+                    formData.append('file', selectedFile);
+                    formData.append('task_id', task_id);
+                    formData.append('project_id', project_id);
+        
+                    console.log(formData)
+        
+                    $.ajax({
+                        type: "POST",
+                        url: "/upload",
+                        data: formData, 
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        success: function(document_id){
+                            // console.log(document_id)
+                            document.getElementById("Uploaded-File-Delete-Row-"+file_id).setAttribute("onclick","deleteFileEntry("+document_id+",inner_tablebody_tr_"+task_id+"_"+file_id+";)");
+                            location.reload();
+                        }
+                    });
             }
 
-            else
+            else 
             {
                 alert("You haven't uploaded the file for "+allUploadedCategories[i].value+" category!")
             }
@@ -517,19 +508,16 @@ function submitFileForm()
 
 function deleteFileEntry(document_id,tr_element_id)
 {
-    console.log(document_id)
-    console.log(tr_element_id)
-    console.log("We are in delete Button Function!")
-
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/deleteFileData",
-    //     data: {"document_id":docuent_id},
-    //     dataType: 'json',
-            // success: function(){
-            //     document.getElementById(tr_element_id).remove();
-            // }
-    // });
+    // console.log(document_id)
+    $.ajax({
+        type: "POST",
+        url: "/delete_document",
+        data: {"docId":document_id}, 
+        dataType: 'json',
+            success: function(){
+                document.getElementById(tr_element_id).remove();
+            }
+    });
 
 }
 
@@ -554,6 +542,9 @@ function openAddCommentModal(task_id, row_num)
 
 function openEditCommentModal(task_id, row_num)
 {
+    
+    console.log(task_id)
+    console.log(row_num)
 
     $("#editModal").modal("show");
 
@@ -566,56 +557,51 @@ function openEditCommentModal(task_id, row_num)
     var editCommentOnclick = document.createAttribute('onclick')
     editCommentOnclick.value="editComment("+task_id+","+row_num+")"
     saveChangesButton.setAttributeNode(editCommentOnclick)
-
+    
     $.ajax({
         type: "POST",
-        url: "/getCommentsHistory",
-        data: {"task_id":task_id},
+        data: {"task_id":task_id}, 
         dataType: 'json',
+        url: "/getCommentsHistory",
             success: function(res){
-                console.log(res)
-                // if(res["data"].length>0)
-                // {
-                //
-                // }
+                if(res.length>0)
+                {
+                    var tableBody = document.getElementById('Comment-Modal-Table-Body-Row');
+                    tableBody.innerHTML="";
+
+                    for(let i=0;i<res.length;i++)
+                    {
+                        var recordEntry=res[i];
+                        var tr_element = document.createElement("tr");
+                        
+                        for(let j=0;j<3;j++)
+                        {
+                            var td_element = document.createElement("td") ;
+                            td_element.innerText=recordEntry[j]
+                            tr_element.appendChild(td_element) ;
+                        }
+
+                        tableBody.appendChild(tr_element);
+
+                    }
+
+                    document.querySelector("#editModal .modal-body textarea").innerText=res[0][1];
+
+                    if(res[0][2]=='external')
+                    {
+                        document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).click();
+                    }
+                }
             }
-    });
-
-    var res={
-        data:[
-            ["07/11/2023","This is my first comment","External"],
-            ["08/11/2023","This is my second comment","Internal"]
-        ]
-    }
-
-    console.log(res)
-    console.log(res["data"].length)
-
-    var tableBody = document.getElementById('Comment-Modal-Table-Body-Row');
-
-    for(let i=0;i<res["data"].length;i++)
-    {
-        var recordEntry=res["data"][i];
-
-        console.log(recordEntry)
-
-        var tr_element = document.createElement("tr");
-
-        for(let j=0;j<3;j++)
-        {
-            var td_element = document.createElement("td") ;
-            td_element.innerText=recordEntry[j]
-            tr_element.appendChild(td_element) ;
-        }
-
-        tableBody.appendChild(tr_element);
-
-    }
+        });
 
 }
 
 function addComment(task_id, row_num)
 {
+    document.getElementById("addCommentsModal-"+task_id+"-"+row_num).disabled=true;
+    
+    console.log("AJAX Add Comment")
     var comment = document.getElementById("addCommentTextarea-"+task_id+"-"+row_num).value;
 
     var comment_type="internal"
@@ -635,16 +621,18 @@ function addComment(task_id, row_num)
     $.ajax({
         type: "POST",
         url: "/add_comment",
-        data: uploadCommentObj,
+        data: uploadCommentObj, 
         dataType: 'json',
             success: function(){
-                window.reload();
+                alert("Your Comment is added successfully!")
+                location.reload();
             }
     });
 }
 
 function editComment(task_id, row_num)
 {
+    console.log("AJAX Edit Comment")
     var comment = document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).value;
 
     var comment_type="internal"
@@ -661,15 +649,16 @@ function editComment(task_id, row_num)
 
     console.log(uploadCommentObj)
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/uploadComments",
-    //     data: uploadCommentObj,
-    //     dataType: 'json',
-            // success: function(){
-            //     window.reload();
-            // }
-    // });
+    $.ajax({
+        type: "POST",
+        url: "/add_comment",
+        data: uploadCommentObj, 
+        dataType: 'json',
+            success: function(){
+                alert("Your Comment is edited successfully!")
+                location.reload();
+            }
+    });
 }
 
 function mainSearchBar()
@@ -725,11 +714,11 @@ function columnLevelSearchBar(searchBar,selectedColumn)
             var cellText = cell.textContent.toLowerCase();
 
             // Show or hide the row based on whether the text was found
-            if (cellText.includes(searchText))
+            if (cellText.includes(searchText)) 
             {
                 row.style.display = "";
-            }
-            else
+            } 
+            else 
             {
                 row.style.display = "none";
             }
@@ -737,12 +726,12 @@ function columnLevelSearchBar(searchBar,selectedColumn)
     });
 }
 
-function calculateTimeRemaining()
+function calculateTimeRemaining() 
 {
     const currentDate = new Date();
     const targetDate = new Date(currentDate);
     targetDate.setHours(11, 0, 0, 0); // Set the target time to 11:00 AM
-    if (currentDate >= targetDate)
+    if (currentDate >= targetDate) 
     {
         targetDate.setDate(targetDate.getDate() + 1);
     }
@@ -750,11 +739,11 @@ function calculateTimeRemaining()
 
 }
 
-function updateCountdown()
+function updateCountdown() 
 {
     const timeRemaining = calculateTimeRemaining();
 
-    if (timeRemaining <= 0)
+    if (timeRemaining <= 0) 
     {
         // Calculate the target date for 11:00 AM of the next day
         const nextDay = new Date();
@@ -763,9 +752,9 @@ function updateCountdown()
 
         countdown.innerHTML = "Countdown expired!";
         setTimeout(updateCountdown, nextDay - new Date()); // Reset at 11:00 AM next day
-    }
-
-    else
+    } 
+    
+    else 
     {
         const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
         const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
@@ -814,9 +803,9 @@ function applyFilter()
 
         for (var i = 2; i < table.rows.length; i++) { // Start from 1 to skip the header row
             var row = table.rows[i];
-            var cell = row.cells[columnforAssignedDate-1];
+            var cell = row.cells[columnforAssignedDate-1]; 
             var assignedDate = parseDateFromString(cell.textContent);
-
+            
             if (assignedDate >= oneWeekAgo && assignedDate <= today) {
                 row.style.display = "";
             } else {
