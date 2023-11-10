@@ -23,10 +23,10 @@ def create_app(config_class=Config):
     from repos.users.routes import users
     from repos.main.routes import main
     from repos.aavana.routes import aavana
-    from repos.api.routes import api
+    # from repos.api.routes import api
 
     app.register_blueprint(users)
     app.register_blueprint(main)
     app.register_blueprint(aavana)
-    app.register_blueprint(api)
+    # app.register_blueprint(api)
     return app

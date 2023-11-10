@@ -1,60 +1,4 @@
-
-body
-{
-    background-color: #F8F8FE;
-    font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue";
-}
-
-#Dashboard-Side-Navigation_Pane
-{
-    height: 150vh;
-    background-color: #1D6CD6;
-    position: sticky;
-    top:0;
-}
-
-#Dashboard-Main_Header-Row
-{
-    height: 100px ;
-    background-color: white;
-    /* border-style: solid;
-    border-color: white; */
-    box-shadow: 0px 15px 10px -15px #111
-}
-
-#Dashboard-Main-Title-Text
-{
-    margin-top: 30px;
-    font-size: 36px;
-    color: #1D6CD6;
-    margin-left: 80px;
-}
-
-#Dashboard-Main-Welcome-Text
-{
-    margin-top: 50px;
-    margin-left: 40px;
-    font-size: 16px;
-    color: #828282;
-}
-
-#Dashboard-Logout-Icon
-{
-    margin-top: 45px;
-    width: 40px;
-}
-
-#Dashboard-Logout-Popup-Row
-{
-    font-family: 'BentonSans Regular', sans-serif;
-    font-size: 13px;
-    background-color: #F8F8FE;
-}
-
-#Dashboard-Main-Info-Pane
-{
-    margin-top: 60px;
-}
+/* table td + td { border-left:2px solid red; } */
 
 #Dashboard-Main-Info-Product-Title-Text
 {
@@ -73,7 +17,7 @@ body
 }
 
 #Dashboard-Search-Icon
-{
+{   
     /* margin-left: 100px; */
     font-size: 12px;
     margin-top: 11px;
@@ -86,6 +30,35 @@ body
     color: #828282;
     opacity: 0.5;
     font-family: 'BentonSans Regular', sans-serif;
+}
+
+input[type='search']::placeholder
+{
+    font-size: 12px;
+    color: #828282;
+    opacity: 0.5;
+    font-family: 'BentonSans Regular', sans-serif;
+    
+}
+
+input[type='search']:focus 
+{
+    outline: none !important;
+}
+
+#Dashboard-Show-Filters-Button:focus {
+    border-style: solid !important;
+}
+
+#Dashboard-Show-Columns-Button:focus {
+    border-style: solid !important;
+}
+
+#categorySearch
+{
+
+    font-size: 14px;
+    color: #828282;
 }
 
 #search-input
@@ -105,7 +78,7 @@ body
 
  #Dashboard-Main-Info-Product-Details
  {
-    height: 1000px;
+    padding-bottom: 50px;
     background-color: white;
     border-radius: 10px;
     margin-top: 20px;
@@ -144,7 +117,7 @@ body
     font-size: 14px;
     margin-top: 2px ;
     margin-left: -15px;
-}
+} 
 
 #Dashboard-Show-Columns-Dropdown_List
 {
@@ -163,7 +136,7 @@ body
     margin-left: -15px;
     width: 200px;
     text-align: left;
-}
+} 
 
 #Dashboard-Show-Filters-Dropdown_List
 {
@@ -191,7 +164,7 @@ body
 {
     margin-left: 150px;
     font-size: 14px;
-    font-family: 'BentonSans Regular', sans-serif;
+    font-family: 'BentonSans Regular', sans-serif;  
 }
 
 th, thead
@@ -290,7 +263,7 @@ table tbody tr td
     font-family: 'BentonSans Regular', sans-serif;
 }
 
-.paginate_button
+.paginate_button 
 {
     padding: 5px 10px 5px 10px!important;
 
