@@ -3,7 +3,8 @@ from flask import Blueprint, request, jsonify, render_template, url_for, current
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 from repos.modules import Task, Document, Project, Log, Files, Comments
-from sqlalchemy import or_
+from sqlalchemy import join
+from sqlalchemy.orm import joinedload
 import os
 from repos import db
 from repos.users.routes import logout
@@ -25,7 +26,7 @@ def aavana_home():
         mainTableDataList.append(headers)
         for row in all_tasks_results:
             rowLevelData = []
-            task_id = row.task_id
+            task_id = f'{row.task_id}'
             document_name = Document.query.filter(Document.task_id == task_id, Document.file_status == 0).all()
             project_name = Project.query.with_entities(Project.project_name).filter_by(id=row.project_id).first()[0]
             entity_name = row.entity_name
@@ -34,7 +35,7 @@ def aavana_home():
             state = row.state
             district = row.district
             locality = row.locality
-            project_id = row.project_id
+            project_id = f'{row.project_id}'
             assigned_date = row.created_time.strftime('%d/%m/%Y') if row.created_time is not None else ''
             licence_expiry_date = row.licence_expiry_date.strftime(
                 '%d/%m/%Y') if row.licence_expiry_date is not None else ''
@@ -57,6 +58,7 @@ def aavana_home():
             rowLevelData.append(licence_expiry_date)
             rowLevelData.append(status)
             rowLevelData.append(document_status)
+
             mainTableDataList.append(rowLevelData)
 
         response = {
@@ -69,53 +71,47 @@ def aavana_home():
 
 
 @aavana.route('/upload', methods=['POST'])
-def upload_file():
+def upload():
     try:
-        print(request.files)
-        try:
-            if 'file' not in request.files:
-                return jsonify({"error": "No file part"}), 400
+        if 'file' not in request.files:
+            return jsonify({"error": "No file part"}), 400
 
-            file = request.files['file']
-            task_id = request.form['task_id']
-            project_id = request.form['project_id']
-            if file.filename == '':
-                return jsonify({"error": "No selected file"}), 400
-            document_data = {}
-            document_data['task_id'] = task_id
-            upload_folder = current_app.config.get('UPLOAD_FOLDER')
-            project_name = Project.query.with_entities(Project.project_name).filter_by(id=project_id).first()[0]
-            document_data['project_name'] = project_name
-            project_dir = os.path.join(upload_folder, project_name)
-            os.makedirs(project_dir, exist_ok=True)
-            task_dir = os.path.join(project_dir, task_id)
-            os.makedirs(task_dir, exist_ok=True)
-            filename = secure_filename(file.filename)
-            document_data['filename'] = file.filename
-            file_path = os.path.join(task_dir, filename)
-            document_data['file_path'] = file_path[5:]
-            file.save(file_path)
+        file = request.files['file']
+        task_id = request.form['task_id']
+        project_id = request.form['project_id']
+        if file.filename == '':
+            return jsonify({"error": "No selected file"}), 400
+        document_data = {}
+        document_data['task_id'] = task_id
+        upload_folder = current_app.config.get('UPLOAD_FOLDER')
+        project_name = Project.query.with_entities(Project.project_name).filter_by(id=project_id).first()[0]
+        document_data['project_name'] = project_name
+        project_dir = os.path.join(upload_folder, project_name)
+        os.makedirs(project_dir, exist_ok=True)
+        task_dir = os.path.join(project_dir, task_id)
+        os.makedirs(task_dir, exist_ok=True)
+        filename = secure_filename(file.filename)
+        document_data['filename'] = file.filename
+        file_path = os.path.join(task_dir, filename)
+        document_data['file_path'] = file_path[5:]
+        file.save(file_path)
 
-            document_info = Document(file_name=filename, task_id=task_id)
-            db.session.add(document_info)
-            db.session.flush()
-            db.session.commit()
-            saved_document_id = document_info.id
-            document_data['saved_document_id'] = saved_document_id
-            document_data['message'] = "File uploaded successfully"
-            message = f'Document inserted - doc id {saved_document_id}'
-            log_info = Log(action=message, table_name='document', user_id=current_user.id,
-                           action_time=datetime.datetime.now())
-            db.session.add(log_info)
-            db.session.commit()
-            db.session.close()
-            return jsonify(document_data), 200
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-
-        return jsonify({"message": "File uploaded successfully"}), 200
+        document_info = Document(file_name=filename, task_id=task_id)
+        db.session.add(document_info)
+        db.session.flush()
+        saved_document_id = document_info.id
+        document_data['saved_document_id'] = saved_document_id
+        document_data['message'] = "File uploaded successfully"
+        message = f'Document inserted - doc id {saved_document_id}'
+        log_info = Log(action=message, table_name='document', user_id=current_user.id,
+                       action_time=datetime.datetime.now())
+        db.session.add(log_info)
+        db.session.commit()
+        return jsonify(document_data), 200
     except Exception as e:
-        return f'Error: {str(e)}'
+        return jsonify({"error": str(e)}), 500
+
+    return jsonify({"message": "File uploaded successfully"}), 200
 
 
 @aavana.route('/delete_document', methods=['POST'])
@@ -221,6 +217,28 @@ def getCommentsHistory():
                 type = comment.comment_type
                 comment = [comment_id, commented_date, comment_details, type]
                 data.append(comment)
+
+            return jsonify(data)
+
+        except Exception as e:
+            return "An error occurred: " + str(e)
+
+    return {'message': 'Invalid request method'}
+
+
+@aavana.route('/getUploadedDocument', methods=['POST'])
+def getUploadedDocument():
+    if request.method == 'POST':
+        task_id = request.form['task_id']
+        try:
+            doc_data = Document.query.with_entities(Document.file_id, Document.file_name, Project.project_name).join(Task, Document.task_id == Task.task_id).join(Project, Task.project_id == Project.id, isouter=True).filter(Document.task_id == task_id).all()
+            data = []
+            for document in doc_data:
+                file_id = document[0]
+                file_name = document[1]
+                project_name = document[2]
+                document_info = [file_id, file_name, project_name]
+                data.append(document_info)
 
             return jsonify(data)
 
