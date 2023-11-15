@@ -21,7 +21,7 @@ def aavana_home():
         all_tasks_results = Task.query.all()
         mainTableDataList = []
         headers = ["UID", "Entity Name", "Location Code", "Type of License", "State", "District", "Locality",
-                   "Project_ID", "Assigned Date", "License Expiry Date", "Status", "Document Status", "", ""]
+                   "Project_ID", "Assigned Date", "License Expiry Date", "Status", "Document Status"]
         mainTableDataList.append(headers)
         for row in all_tasks_results:
             rowLevelData = []
@@ -57,9 +57,6 @@ def aavana_home():
             rowLevelData.append(licence_expiry_date)
             rowLevelData.append(status)
             rowLevelData.append(document_status)
-            rowLevelData.append("")
-            rowLevelData.append("")
-
             mainTableDataList.append(rowLevelData)
 
         response = {

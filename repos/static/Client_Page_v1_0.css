@@ -88,13 +88,13 @@ input[type='search']:focus
 
 #Dashboard-Main-Info-Inner-Details-Box
 {
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 #Dashboard-Show-Columns-Title
 {
     margin-top: 10px;
-    margin-left: 125px;
+    /* margin-left: 125px; */
     color: #828282;
     font-family: 'BentonSans Regular', sans-serif;
     font-size: 14px;
@@ -163,16 +163,23 @@ input[type='search']:focus
 #Dashboard-Download-Files-Button
 {
     margin-left: 150px;
-    font-size: 14px;
+    font-size: 12px;
     font-family: 'BentonSans Regular', sans-serif;  
+    position: relative; 
+    top: 30px;
+    z-index: 100;
 }
 
 th, thead
 {
     position: sticky;
     top: 0;
-    background-color: #F8F8FE !important;
+    /* background-color: #F8F8FE !important; */
     font-size: 14px;
+
+    background-color: #1D6CD6 !important;
+    color: white !important;
+    border-spacing: 5px !important;
 }
 
 #Main-Data-Table-Content
@@ -207,7 +214,12 @@ table.dataTable
 
 #Dashboard-Data-Table-Content-Box
 {
-    margin-top: 50px;
+    /* margin-top: 50px; */
+}
+
+#Main-Data-Table-Content_length
+{
+    float: none !important;
 }
 
 .Upload-Files-Button

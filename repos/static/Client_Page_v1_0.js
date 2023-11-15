@@ -25,11 +25,18 @@ $(document).ready(function(){
             dataArray = res["dataArray"]
             populateTable(dataArray)
             var headerList=[]
-            for(let i=1;i<(dataArray[0].length)-3;i++)
+            for(let i=1;i<(dataArray[0].length);i++)
             {
                 headerList.push(dataArray[0][i])
             }
             populateNavigationPan(headerList)
+            $('.date-range-input').daterangepicker({
+                // singleDatePicker: true,
+                autoUpdateInput: false,
+                locale: {
+                    cancelLabel: 'Clear'
+                }
+            });
             mainSearchBar()
             updateCountdown()
             
@@ -108,9 +115,38 @@ function populateTable(dataArray)
             button_element.setAttributeNode(button_uid_attr)
             button_pid_attr.value=dataArray[i][7]
             button_element.setAttributeNode(button_pid_attr)
-            button_element.innerHTML='<i class="fa-solid fa-file" title="Add Documents" style="cursor:pointer;font-size:20px;margin-left:40px;"></i>'
-
+            button_element.innerHTML='<i class="fa-solid fa-file" title="Add Documents" style="cursor:pointer;font-size:20px;margin-left:20px;"></i>'   
             td_element.appendChild(button_element)
+
+            var anchor_element_2 = document.createElement('a');
+            anchor_element_2.classList.add("Edit-Comment-Button")
+            var anchor_toggle_attr_2 = document.createAttribute('href')
+            anchor_toggle_attr_2.value="#"
+            var anchor_toggle_attr_2 = document.createAttribute('data-bs-toggle')
+            anchor_toggle_attr_2.value="modal"
+            var anchor_target_attr_2 = document.createAttribute('data-bs-target')
+            anchor_target_attr_2.value="#EditModal"
+            var anchor_id_attr_2 = document.createAttribute('id')
+            anchor_id_attr_2.value = "Edit-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
+            var anchor_uid_attr_2 = document.createAttribute('data-UID')
+            
+
+            anchor_element_2.setAttributeNode(anchor_toggle_attr_2)
+            anchor_element_2.setAttributeNode(anchor_target_attr_2)
+            anchor_element_2.setAttributeNode(anchor_id_attr_2)
+
+            anchor_uid_attr_2.value=dataArray[i][0]
+            anchor_element_2.setAttributeNode(anchor_uid_attr_2)
+
+            var anchor_target_attr_2 = document.createAttribute('onclick')
+            anchor_target_attr_2.value="openEditCommentModal("+dataArray[i][0]+","+i+")"
+            anchor_element_2.setAttributeNode(anchor_target_attr_2)
+
+            anchor_element_2.innerHTML='<i class="fa-sharp fa-solid fa-pen-to-square" title="Edit Comments" style="cursor:pointer;font-size:18px;margin-left:20px;"></i>'
+
+
+            td_element.appendChild(anchor_element_2)
+
             tr_element.appendChild(td_element) 
         
         }
@@ -137,76 +173,76 @@ function populateTable(dataArray)
                       
             }
 
-            else if(j==dataArray[i].length-2)
-            {
-                var td_element = document.createElement('td');
+            // else if(j==dataArray[i].length-2)
+            // {
+            //     var td_element = document.createElement('td');
 
-                var anchor_element = document.createElement('a');
-                anchor_element.classList.add("Add-Comment-Button")
-                var anchor_toggle_attr = document.createAttribute('href')
-                anchor_toggle_attr.value="#"
-                var anchor_toggle_attr = document.createAttribute('data-bs-toggle')
-                anchor_toggle_attr.value="modal"
+            //     var anchor_element = document.createElement('a');
+            //     anchor_element.classList.add("Add-Comment-Button")
+            //     var anchor_toggle_attr = document.createAttribute('href')
+            //     anchor_toggle_attr.value="#"
+            //     var anchor_toggle_attr = document.createAttribute('data-bs-toggle')
+            //     anchor_toggle_attr.value="modal"
                 
-                var anchor_id_attr = document.createAttribute('id')
-                anchor_id_attr.value = "Add-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
-                var anchor_uid_attr = document.createAttribute('data-UID')
-                
-
-                anchor_element.setAttributeNode(anchor_toggle_attr)
-                
-                anchor_element.setAttributeNode(anchor_id_attr)
-
-                anchor_uid_attr.value=dataArray[i][0]
-                anchor_element.setAttributeNode(anchor_uid_attr)
-
-                var anchor_target_attr = document.createAttribute('onclick')
-                anchor_target_attr.value="openAddCommentModal("+dataArray[i][0]+","+i+")"
-                anchor_element.setAttributeNode(anchor_target_attr)
-
-                anchor_element.innerHTML='<i class="fa-sharp fa-solid fa-commenting" title="Add Comments" style="cursor:pointer;font-size:15px;"></i>'
-
-                td_element.appendChild(anchor_element)
-
-                tr_element.appendChild(td_element)
-
-            }
-
-            else if(j==dataArray[i].length-1)
-            {
-                var td_element = document.createElement('td');
-
-                var anchor_element_2 = document.createElement('a');
-                anchor_element_2.classList.add("Edit-Comment-Button")
-                var anchor_toggle_attr_2 = document.createAttribute('href')
-                anchor_toggle_attr_2.value="#"
-                var anchor_toggle_attr_2 = document.createAttribute('data-bs-toggle')
-                anchor_toggle_attr_2.value="modal"
-                var anchor_target_attr_2 = document.createAttribute('data-bs-target')
-                anchor_target_attr_2.value="#EditModal"
-                var anchor_id_attr_2 = document.createAttribute('id')
-                anchor_id_attr_2.value = "Edit-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
-                var anchor_uid_attr_2 = document.createAttribute('data-UID')
+            //     var anchor_id_attr = document.createAttribute('id')
+            //     anchor_id_attr.value = "Add-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
+            //     var anchor_uid_attr = document.createAttribute('data-UID')
                 
 
-                anchor_element_2.setAttributeNode(anchor_toggle_attr_2)
-                anchor_element_2.setAttributeNode(anchor_target_attr_2)
-                anchor_element_2.setAttributeNode(anchor_id_attr_2)
+            //     anchor_element.setAttributeNode(anchor_toggle_attr)
+                
+            //     anchor_element.setAttributeNode(anchor_id_attr)
 
-                anchor_uid_attr_2.value=dataArray[i][0]
-                anchor_element_2.setAttributeNode(anchor_uid_attr_2)
+            //     anchor_uid_attr.value=dataArray[i][0]
+            //     anchor_element.setAttributeNode(anchor_uid_attr)
 
-                var anchor_target_attr_2 = document.createAttribute('onclick')
-                anchor_target_attr_2.value="openEditCommentModal("+dataArray[i][0]+","+i+")"
-                anchor_element_2.setAttributeNode(anchor_target_attr_2)
+            //     var anchor_target_attr = document.createAttribute('onclick')
+            //     anchor_target_attr.value="openAddCommentModal("+dataArray[i][0]+","+i+")"
+            //     anchor_element.setAttributeNode(anchor_target_attr)
 
-                anchor_element_2.innerHTML='<i class="fa-sharp fa-solid fa-pen-to-square" title="Edit Comments" style="cursor:pointer;font-size:15px;margin-left:-30px;"></i>'
+            //     anchor_element.innerHTML='<i class="fa-sharp fa-solid fa-commenting" title="Add Comments" style="cursor:pointer;font-size:15px;"></i>'
 
-                td_element.appendChild(anchor_element_2)
+            //     td_element.appendChild(anchor_element)
 
-                tr_element.appendChild(td_element)
+            //     tr_element.appendChild(td_element)
 
-            }
+            // }
+
+            // else if(j==dataArray[i].length-1)
+            // {
+            //     var td_element = document.createElement('td');
+
+            //     var anchor_element_2 = document.createElement('a');
+            //     anchor_element_2.classList.add("Edit-Comment-Button")
+            //     var anchor_toggle_attr_2 = document.createAttribute('href')
+            //     anchor_toggle_attr_2.value="#"
+            //     var anchor_toggle_attr_2 = document.createAttribute('data-bs-toggle')
+            //     anchor_toggle_attr_2.value="modal"
+            //     var anchor_target_attr_2 = document.createAttribute('data-bs-target')
+            //     anchor_target_attr_2.value="#EditModal"
+            //     var anchor_id_attr_2 = document.createAttribute('id')
+            //     anchor_id_attr_2.value = "Edit-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
+            //     var anchor_uid_attr_2 = document.createAttribute('data-UID')
+                
+
+            //     anchor_element_2.setAttributeNode(anchor_toggle_attr_2)
+            //     anchor_element_2.setAttributeNode(anchor_target_attr_2)
+            //     anchor_element_2.setAttributeNode(anchor_id_attr_2)
+
+            //     anchor_uid_attr_2.value=dataArray[i][0]
+            //     anchor_element_2.setAttributeNode(anchor_uid_attr_2)
+
+            //     var anchor_target_attr_2 = document.createAttribute('onclick')
+            //     anchor_target_attr_2.value="openEditCommentModal("+dataArray[i][0]+","+i+")"
+            //     anchor_element_2.setAttributeNode(anchor_target_attr_2)
+
+            //     anchor_element_2.innerHTML='<i class="fa-sharp fa-solid fa-pen-to-square" title="Edit Comments" style="cursor:pointer;font-size:15px;margin-left:-30px;"></i>'
+
+            //     td_element.appendChild(anchor_element_2)
+
+            //     tr_element.appendChild(td_element)
+
+            // }
 
             else
             {
@@ -308,8 +344,34 @@ function populateNavigationPan(headerList)
     var sideBar = document.getElementById('Main-Column-Search-Box');
     for(let i=0;i<headerList.length;i++)
     {
-        
-        if(columnsIndexToHide.includes(i+1))
+
+        if(headerList[i] == "Assigned Date" || headerList[i]=="License Expiry Date")
+        {
+            
+            if(columnsIndexToHide.includes(i+1))
+            {
+                var HTML_content = `<div class="row" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
+                    <div class="col-md-12">
+                        <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
+                        <div class="row"><input id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282; padding-top:5px; padding-bottom:5px;font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
+                    </div>
+                </div>`
+            }
+            
+            
+            else
+            {
+                var HTML_content = `<div class="row" style="margin-top: 20px;">
+                    <div class="col-md-12">
+                        <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
+                        <div class="row"><input id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282;padding-top:5px; padding-bottom:5px; font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
+                    </div>
+                </div>`
+            }
+            
+        }
+
+        else if(columnsIndexToHide.includes(i+1))
         {
             var HTML_content = `<div class="row" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
                 <div class="col-md-12">
@@ -336,7 +398,7 @@ function populateNavigationPan(headerList)
     for(let i=0;i<searchBarNodeList.length;i++)
     {
         var col = searchBarNodeList[i].id;
-        columnLevelSearchBar(searchBarNodeList[i],col)
+        columnLevelSearchBar(searchBarNodeList[i],col,headerList[i])
 
     }
 }
@@ -548,15 +610,25 @@ function openEditCommentModal(task_id, row_num)
 
     $("#editModal").modal("show");
 
-    document.querySelector("#editModal .modal-body textarea").id = "editCommentTextarea-"+task_id+"-"+row_num;
-    document.querySelector("#editModal .modal-body input").id = "edit-check-internal-external-"+task_id+"-"+row_num;
-    document.querySelector("#editModal .modal-body button").id = "editCommentsModal-"+task_id+"-"+row_num;
+    document.querySelectorAll("#editModal .modal-body textarea")[0].id = "addCommentTextarea-"+task_id+"-"+row_num;
+    document.querySelectorAll("#editModal .modal-body input")[0].id = "check-internal-external-"+task_id+"-"+row_num;
+    document.querySelectorAll("#editModal .modal-body button")[0].id = "addCommentsModal-"+task_id+"-"+row_num;
 
-    var saveChangesButton = document.querySelector("#editModal .modal-body button");
+    var saveAddCommentsButton = document.getElementById("addCommentsModal-"+task_id+"-"+row_num);
+
+    var addCommentOnclick = document.createAttribute('onclick')
+    addCommentOnclick.value="addComment("+task_id+","+row_num+")"
+    saveAddCommentsButton.setAttributeNode(addCommentOnclick)
+
+    document.querySelectorAll("#editModal .modal-body textarea")[1].id = "editCommentTextarea-"+task_id+"-"+row_num;
+    document.querySelectorAll("#editModal .modal-body input")[1].id = "edit-check-internal-external-"+task_id+"-"+row_num;
+    document.querySelectorAll("#editModal .modal-body button")[1].id = "editCommentsModal-"+task_id+"-"+row_num;
+
+    var saveEditCommentsButton = document.getElementById("editCommentsModal-"+task_id+"-"+row_num);
 
     var editCommentOnclick = document.createAttribute('onclick')
     editCommentOnclick.value="editComment("+task_id+","+row_num+")"
-    saveChangesButton.setAttributeNode(editCommentOnclick)
+    saveEditCommentsButton.setAttributeNode(editCommentOnclick)
     
     $.ajax({
         type: "POST",
@@ -564,17 +636,17 @@ function openEditCommentModal(task_id, row_num)
         dataType: 'json',
         url: "/getCommentsHistory",
             success: function(res){
+                var tableBody = document.getElementById('Comment-Modal-Table-Body-Row');
+                tableBody.innerHTML='';
                 if(res.length>0)
                 {
-                    var tableBody = document.getElementById('Comment-Modal-Table-Body-Row');
-                    tableBody.innerHTML="";
 
                     for(let i=0;i<res.length;i++)
                     {
                         var recordEntry=res[i];
                         var tr_element = document.createElement("tr");
                         
-                        for(let j=0;j<3;j++)
+                        for(let j=1;j<4;j++)
                         {
                             var td_element = document.createElement("td") ;
                             td_element.innerText=recordEntry[j]
@@ -585,9 +657,9 @@ function openEditCommentModal(task_id, row_num)
 
                     }
 
-                    document.querySelector("#editModal .modal-body textarea").innerText=res[0][1];
+                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).innerText=res[0][2];
 
-                    if(res[0][2]=='external')
+                    if(res[0][3]=='external')
                     {
                         document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).click();
                     }
@@ -696,34 +768,80 @@ function mainSearchBar()
     });
 }
 
-function columnLevelSearchBar(searchBar,selectedColumn)
+function columnLevelSearchBar(searchBar,selectedColumn,columnName)
 {
     var dataTable = document.getElementById("Main-Data-Table-Content");
+    
+    if(columnName == "Assigned Date" || columnName=="License Expiry Date"){
+        $(searchBar).on('apply.daterangepicker', function(ev, picker){
 
-    // Add an event listener to the search bar
-    searchBar.addEventListener("keyup", function() {
-        var searchText = searchBar.value.toLowerCase();
-        var rows = dataTable.getElementsByTagName("tr");
+            var startDate = picker.startDate.format('YYYY-MM-DD');
+            var endDate = picker.endDate.format('YYYY-MM-DD');
+ 
+            var rows = dataTable.getElementsByTagName("tr");
 
-        // Loop through the table rows
-        for (var i = 2; i < rows.length; i++) { // Start from 1 to skip the header row
-            var row = rows[i];
-            var cells = row.getElementsByTagName("td");
+            // Loop through the table rows
+            for (var i = 2; i < rows.length; i++) { // Start from 1 to skip the header row
+                var row = rows[i];
+                var cells = row.getElementsByTagName("td");
 
-            var cell = cells[selectedColumn];
-            var cellText = cell.textContent.toLowerCase();
+                var cell = cells[selectedColumn];
+                var cellText = cell.textContent.toLowerCase();
 
-            // Show or hide the row based on whether the text was found
-            if (cellText.includes(searchText)) 
-            {
-                row.style.display = "";
-            } 
-            else 
-            {
-                row.style.display = "none";
+                var cellTextDate = cellText.split("/").reverse().join("-")
+                // console.log(cellTextDate)
+
+                var startD1 = Date.parse(startDate)
+                var endD2 = Date.parse(endDate)
+                var cellD3 = Date.parse(cellTextDate)
+
+                // Show or hide the row based on whether the text was found
+            
+                if ((startD1<=cellD3) && (endD2>=cellD3)) 
+                {
+                    
+                    row.style.display = "";
+                } 
+                else 
+                {
+                    row.style.display = "none";
+                }            
+            
             }
-        }
-    });
+        })
+    }
+
+    else
+    {
+        // Add an event listener to the search bar
+        searchBar.addEventListener("keyup", function() {
+            var searchText = searchBar.value.toLowerCase();
+            var rows = dataTable.getElementsByTagName("tr");
+            console.log("Here")
+            console.log(columnName)
+            // Loop through the table rows
+            for (var i = 2; i < rows.length; i++) { // Start from 1 to skip the header row
+                var row = rows[i];
+                var cells = row.getElementsByTagName("td");
+
+                var cell = cells[selectedColumn];
+                var cellText = cell.textContent.toLowerCase();
+
+                // Show or hide the row based on whether the text was found
+            
+                if (cellText.includes(searchText)) 
+                {
+                    row.style.display = "";
+                } 
+                else 
+                {
+                    row.style.display = "none";
+                }            
+            
+            }
+        });
+    }
+    
 }
 
 function calculateTimeRemaining() 
