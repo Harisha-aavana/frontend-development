@@ -235,13 +235,14 @@ def getUploadedDocument():
             data = []
             for document in doc_data:
                 document_info = {}
-                document_info['file_id'] = document[0]
-                document_info['file_name'] = document[1]
-                document_info['task_id'] = document[2]
-                document_info['project_id'] = document[3]
-                document_info['project_name'] = document[4]
-                document_info['category_id'] = document[5]
-                document_info['Category_type'] = document[6]
+                document_info['doc_id'] = document[0]
+                document_info['file_id'] = document[1]
+                document_info['file_name'] = document[2]
+                document_info['task_id'] = document[3]
+                document_info['project_id'] = document[4]
+                document_info['project_name'] = document[5]
+                document_info['category_id'] = document[6]
+                document_info['Category_type'] = document[7]
                 data.append(document_info)
             return jsonify(data)
 
