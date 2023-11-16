@@ -231,15 +231,18 @@ def getUploadedDocument():
     if request.method == 'POST':
         task_id = request.form['task_id']
         try:
-            doc_data = Document.query.with_entities(Document.file_id, Document.file_name, Project.project_name).join(Task, Document.task_id == Task.task_id).join(Project, Task.project_id == Project.id, isouter=True).filter(Document.task_id == task_id).all()
+            doc_data = Document.query.with_entities(Document.file_id, Document.file_name, Document.task_id, Project.id, Project.project_name, Files.id, Files.filename).join(Task, Document.task_id == Task.task_id).join(Project, Task.project_id == Project.id, isouter=True).join(Files, Files.id == Document.file_id).filter(Document.task_id == task_id).all()
             data = []
             for document in doc_data:
-                file_id = document[0]
-                file_name = document[1]
-                project_name = document[2]
-                document_info = [file_id, file_name, project_name]
+                document_info = {}
+                document_info['file_id'] = document[0]
+                document_info['file_name'] = document[1]
+                document_info['task_id'] = document[2]
+                document_info['project_id'] = document[3]
+                document_info['project_name'] = document[4]
+                document_info['category_id'] = document[5]
+                document_info['Category_type'] = document[6]
                 data.append(document_info)
-
             return jsonify(data)
 
         except Exception as e:
