@@ -365,4 +365,96 @@
     </div>
 </div>
 
+  
+<!-- Search for Assigned Dates Modal -->
+<div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true" style="margin-top:-80px;">
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-header" style="border: none;">
+        <h5 class="modal-title" id="dateModalLabel">Search for Assigned Dates</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="font-size: 12px;"></button>
+    </div>
+    <div class="modal-body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" id="dateTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="startDateTab" data-bs-toggle="tab" data-bs-target="#startDate" type="button" role="tab" aria-controls="startDate" aria-selected="true" style="font-size: 14px;">Start Date</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="endDateTab" data-bs-toggle="tab" data-bs-target="#endDate" type="button" role="tab" aria-controls="endDate" aria-selected="false" style="font-size: 14px;">End Date</button>
+        </li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content mt-3" id="dateTabContent">
+        <div class="tab-pane fade show active" id="startDate" role="tabpanel" aria-labelledby="startDateTab">
+            <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="startDateDefault" style="font-size: 13px; margin-top: 7px;" checked>
+            <label class="form-check-label" for="startDateDefault" style="font-size: 13px;">Use Default Value</label>
+            </div>
+            <i class="fa fa-calendar" style="cursor:pointer; position:absolute ;margin-top: 10px;left: 35px;"></i>
+            <input type="text" class="form-control" id="startDateInput" name="data-range-input" style="width: 60%;cursor: pointer;padding-left: 40px;font-size: 15px;" disabled>
+        </div>
+        <div class="tab-pane fade" id="endDate" role="tabpanel" aria-labelledby="endDateTab">
+            <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="endDateDefault" style="font-size: 13px; margin-top: 7px;" checked>
+            <label class="form-check-label" for="endDateDefault" style="font-size: 13px;">Use Default Value</label>
+            </div>
+            <i class="fa fa-calendar" style="cursor:pointer; position:absolute ;margin-top: 10px;left: 35px;"></i>
+            <input type="text" class="form-control" id="endDateInput" name="data-range-input" style="width: 60%;cursor: pointer;padding-left: 40px;font-size: 15px;" disabled>
+        </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="border: none !important;">
+        <button type="button" class="btn btn-primary" id="saveDates" style="font-size: 13px;">Save Changes</button>
+    </div>
+    </div>
+</div>
+</div>
+
+<!-- Search for License Dates Modal -->
+<div class="modal fade" id="dateLicenseModal" tabindex="-1" aria-labelledby="dateLicenseModalLabel" aria-hidden="true" style="margin-top:-80px;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        <div class="modal-header" style="border: none;">
+            <h5 class="modal-title" id="dateLicenseModalLabel">Search for License Expiry Dates</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="font-size: 12px;"></button>
+        </div>
+        <div class="modal-body">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" id="dateTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="startLicenseDateTab" data-bs-toggle="tab" data-bs-target="#startLicenseDate" type="button" role="tab" aria-controls="startDate" aria-selected="true" style="font-size: 14px;">Start Date</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="endDateTab" data-bs-toggle="tab" data-bs-target="#endLicenseDate" type="button" role="tab" aria-controls="endDate" aria-selected="false" style="font-size: 14px;">End Date</button>
+            </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content mt-3" id="dateTabContent">
+            <div class="tab-pane fade show active" id="startLicenseDate" role="tabpanel" aria-labelledby="startDateTab">
+                <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="startLicenseDateDefault" style="font-size: 13px; margin-top: 7px;" checked>
+                <label class="form-check-label" for="startLicenseDateDefault" style="font-size: 13px;">Use Default Value</label>
+                </div>
+                <i class="fa fa-calendar" style="cursor:pointer; position:absolute ;margin-top: 10px;left: 35px;"></i>
+                <input type="text" class="form-control" id="startLicenseDateInput" name="data-range-input" style="width: 60%;cursor: pointer;padding-left: 40px;font-size: 15px;" disabled>
+            </div>
+            <div class="tab-pane fade" id="endLicenseDate" role="tabpanel" aria-labelledby="endLicenseDateTab">
+                <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="endLicenseDateDefault" style="font-size: 13px; margin-top: 7px;" checked>
+                <label class="form-check-label" for="endLicenseDateDefault" style="font-size: 13px;">Use Default Value</label>
+                </div>
+                <i class="fa fa-calendar" style="cursor:pointer; position:absolute ;margin-top: 10px;left: 35px;"></i>
+                <input type="text" class="form-control" id="endLicenseDateInput" name="data-range-input" style="width: 60%;cursor: pointer;padding-left: 40px;font-size: 15px;" disabled>
+            </div>
+            </div>
+        </div>
+        <div class="modal-footer" style="border: none !important;">
+            <button type="button" class="btn btn-primary" id="saveLicenseDates" style="font-size: 13px;">Save Changes</button>
+        </div>
+        </div>
+    </div>
+    </div>
+  
+
 {% endblock %}
