@@ -88,7 +88,7 @@ input[type='search']:focus
 
 #Dashboard-Main-Info-Inner-Details-Box
 {
-    margin-top: 10px;
+    /* margin-top: 10px; */
 }
 
 #Dashboard-Show-Columns-Title
@@ -162,7 +162,7 @@ input[type='search']:focus
 
 #Dashboard-Download-Files-Button
 {
-    margin-left: 150px;
+    margin-left: 900px;
     font-size: 12px;
     font-family: 'BentonSans Regular', sans-serif;  
     position: relative; 
@@ -184,7 +184,7 @@ th, thead
 
 #Main-Data-Table-Content
 {
-    margin-top: 50px;
+    margin-top: 10px;
 }
 
 table.dataTable.no-footer

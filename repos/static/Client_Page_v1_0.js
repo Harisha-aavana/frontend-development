@@ -23,6 +23,7 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(res){
             dataArray = res["dataArray"]
+            // console.log(dataArray)
             populateTable(dataArray)
             var headerList=[]
             for(let i=1;i<(dataArray[0].length);i++)
@@ -50,8 +51,53 @@ $(document).ready(function(){
                     const Upload_File_button_nodeList = document.querySelectorAll('[id^="Upload-Files-Button-Row"]');
                     for(let i=0;i<Upload_File_button_nodeList.length;i++)
                     {   
+                        var task_id = (Upload_File_button_nodeList[i].getAttribute("data-uid")).toString();
+                        // console.log(task_id)
                         Upload_File_button_nodeList[i].addEventListener('click', function handleClick() {
-                            document.getElementById('Dashboard-Modal-Table-Body-Row').innerHTML='';
+                            document.getElementById('Dashboard-Modal-Table-Body-Row').innerHTML=''
+                            $.ajax({
+                                type:"POST",
+                                url:"/getUploadedDocument",
+                                data:{"task_id":task_id},
+                                dataType:'json',
+                                success: function(uploadedDocumentList){
+                                    // console.log("here")
+                                    console.log(uploadedDocumentList)
+                                    
+                                    for(let j=0;j<uploadedDocumentList.length;j++)
+                                    {
+                                        // console.log(uploadedDocumentList[i])
+                                        var optionsList = uploadedDocumentList[j]["Category_type"]
+                                        var argv = uploadedDocumentList[j]["task_id"] ;
+                                        var pid = uploadedDocumentList[j]["project_id"] ;
+                                        var i = parseInt(uploadedDocumentList[j]["category_id"])-1 ;
+                                        var file_id = uploadedDocumentList[j]["file_id"] ;
+                                        var document_id = uploadedDocumentList[j]["doc_id"] ;
+                                        var filename = uploadedDocumentList[j]["file_name"] ;
+
+                                        var tableBody = document.getElementById('Dashboard-Modal-Table-Body-Row');
+
+                                        var tr_element = document.createElement('tr');   
+                                        var HTML_content = `<td><div class="form-check"><input class="form-check-input" data-pid="`+pid+`" data-uid="`+argv+`" file_id='`+(i+1)+`' type="checkbox" name="categoryCheckBox" value="`+optionsList+`" id="flexCheckDefault-Row-`+(i+1)+`" onchange="if(document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled==true){document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=false} else {document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=true}" checked><label class="form-check-label" for="flexCheckDefault-Row-`+(i+1)+`"></label></div></td>
+                                        <td file_id='`+(i+1)+`' id="category_sno_`+(i+1)+`">`+optionsList+`</td>
+                                        <td><form id="Upload-Form-Modal-Input-Row"><input type='file' name='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
+                                        <td id="Uploaded-File-Name-Row-`+(i+1)+`">`+filename+`</td>
+                                        <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px;" onclick="deleteFileEntry(`+document_id+`,inner_tablebody_tr_`+argv+`_`+file_id+`;)"><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
+
+                                        var modal_tr_id_attr = document.createAttribute('id')
+                                        modal_tr_id_attr.value = "inner_tablebody_tr_"+argv+"_"+(i+1);
+                                        tr_element.setAttributeNode(modal_tr_id_attr)
+
+                                    
+                                        tr_element.innerHTML=HTML_content;
+                                        tableBody.appendChild(tr_element)
+
+                                    }
+                                }
+
+                            })
+
+                            // document.getElementById('Dashboard-Modal-Table-Body-Row').innerHTML='';
                             populateUploadFilesPage(fileTypeList,optionsList,Upload_File_button_nodeList[i].getAttribute('data-uid'),Upload_File_button_nodeList[i].getAttribute('data-pid'))
 
                         });
@@ -139,7 +185,7 @@ function populateTable(dataArray)
             anchor_element_2.setAttributeNode(anchor_uid_attr_2)
 
             var anchor_target_attr_2 = document.createAttribute('onclick')
-            anchor_target_attr_2.value="openEditCommentModal("+dataArray[i][0]+","+i+")"
+            anchor_target_attr_2.value="openEditCommentModal('"+dataArray[i][0]+"',"+i+")"
             anchor_element_2.setAttributeNode(anchor_target_attr_2)
 
             anchor_element_2.innerHTML='<i class="fa-sharp fa-solid fa-pen-to-square" title="Edit Comments" style="cursor:pointer;font-size:18px;margin-left:20px;"></i>'
@@ -289,13 +335,13 @@ function populateTable(dataArray)
 
     $("#Main-Data-Table-Content").DataTable({
         searching: false,
-        // ordering:false,
+        ordering:true,
         dom: "fltip",
-        rowReorder: true,
-        columnDefs: [
-            { orderable: true, className: 'reorder', type: 'custom-date', targets: 8 },
-            { orderable: false, targets: '_all' }
-        ]
+        // rowReorder: true,
+        // columnDefs: [
+        //     { orderable: true, className: 'reorder', type: 'custom-date', targets: 8 },
+        //     { orderable: false, targets: '_all' }
+        // ]
     
     });
 
@@ -411,7 +457,7 @@ function populateUploadFilesPage(fileTypeList,optionsList,argv,pid)
     for(let i=0;i<fileTypeList.length;i++)
     {
         HTML_content += `<div class="form-check" style="margin-left:10px;font-size:13px;padding-right:20px;">
-        <input type="checkbox" name="dropdownCheckBox" value="`+fileTypeList[i][1]+`" class="form-check-input" id="`+pid+`-`+argv+`-`+(fileTypeList[i][0]+1)+`">
+        <input type="checkbox" name="dropdownCheckBox" value="`+fileTypeList[i][1]+`" class="form-check-input" id="`+pid+`-`+argv+`-`+(fileTypeList[i][0])+`">
         <label class="form-check-label" for="`+(fileTypeList[i][0]+1)+`">`+fileTypeList[i][1]+`</label>
     </div>`
     }
@@ -636,6 +682,7 @@ function openEditCommentModal(task_id, row_num)
         dataType: 'json',
         url: "/getCommentsHistory",
             success: function(res){
+                console.log(res)
                 var tableBody = document.getElementById('Comment-Modal-Table-Body-Row');
                 tableBody.innerHTML='';
                 if(res.length>0)
@@ -657,12 +704,22 @@ function openEditCommentModal(task_id, row_num)
 
                     }
 
+                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).disabled=false;
                     document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).innerText=res[0][2];
 
                     if(res[0][3]=='external')
                     {
+                        document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).disabled=false;
                         document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).click();
                     }
+                }
+
+                else 
+                {
+                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).innerText="";
+                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).disabled=true;
+                    document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).checked=false;
+                    document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).disabled=true;
                 }
             }
         });
