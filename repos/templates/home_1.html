@@ -1,0 +1,315 @@
+{% extends "layout_v2.html" %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="../static/home.css">
+    <script src="../static/home.js"></script>
+    <title>Tracks</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="row" id="Dashboard-Main-Info-Product-Title">
+    <div class="container py-4">
+        <!--<div class="row gx-5 justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="text-center">
+                    <h2 class="fw-bolder text-primary">{{ project_name }}</h2>
+                </div>
+            </div>
+        </div>-->
+        <div class="row d-flex justify-content-center">
+            <div class="col">
+                <a id="start_task" data-task_name="assigned" href="#" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm border-0 bg-warning">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
+                            <h5 class="card-title">Assigned</h5>
+                            <h5 class="card-title">{{status_count.start_count}}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-auto d-flex align-items-center">
+                <span style="font-size: 20px;">=</span>
+            </div>
+            <div class="col">
+                <a id="document_pen_task" data-task_name="Document Pending" href="#" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm border-0 bg-secondary text-white">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
+                            <h5 class="card-title">Document Pending</h5>
+                            <h5 class="card-title">{{status_count.doc_pending_count}}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a id="under_process_task" data-task_name="Under Process" href="#" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm border-0 bg-info text-white">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
+                            <h5 class="card-title">Under Process</h5>
+                            <h5 class="card-title">{{status_count.under_process_count}}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a id="onhold_task" data-task_name="On Hold" href="#" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm border-0 gradient-bg">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
+                            <h5 class="card-title">On Hold</h5>
+                            <h5 class="card-title">{{ status_count.onhold_count }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col">
+                <a id="closed_task" data-task_name="Closed" href="#" class="text-decoration-none text-dark">
+                    <div class="card h-100 shadow-sm border-0 bg-success text-white">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center p-4 text-center">
+                            <h5 class="card-title">Closed</h5>
+                            <h5 class="card-title">{{ status_count.closed_count }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div id="Dashboard-Show-Filters-Title">Filters</div>
+            </div>
+            <div class="col-md-8">
+                <div class="btn-group">
+                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="Dashboard-Show-Filters-Button">
+                    Select
+                    </button>
+                    <ul class="dropdown-menu" id="Dashboard-Show-Filters-Dropdown_List">
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="showFilters" value="last_added" id="last_added">
+                                <label class="form-check-label" for="last_added">
+                                    Last Added
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="showFilters" value="last_week_added" id="last_week_added">
+                                <label class="form-check-label" for="last_week_added">
+                                    Last Week Added
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="showFilters" value="newly_added" id="newly_added">
+                                <label class="form-check-label" for="newly_added">
+                                    Newly Added
+                                </label>
+                            </div>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary" style="font-size:10px;margin-top: 15px;margin-left: 20px;" onclick="applyFilter()">Apply Filter</button>
+                        </li>
+
+                    </ul>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="row">
+            <div class="col-md-3">
+                <div id="Dashboard-Show-Columns-Title">Show</div>
+            </div>
+            <div class="col-md-6">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" id="Dashboard-Show-Columns-Button">Basic Columns
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="Dashboard-Show-Columns-Dropdown_List">
+                        <li>
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Basic Columns" id="flexCheckDefault-showColumns-0" onclick="return false" checked>
+                            <label class="form-check-label" for="flexCheckDefault">Basic Columns</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="Locality" id="flexCheckDefault-showColumns-1">
+                            <label class="form-check-label" for="flexCheckDefault">Locailty</label>
+                            </div>
+                        </li>
+                    </ul>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="row" id="Dashboard-Top-Search-Bar">
+            <div class="col-md-2"><i id="Dashboard-Search-Icon" class="fa fa-search" aria-hidden="true"></i></div>
+            <div class="col-md-10"><input type="text" id="search-input" class="form-control input-lg" placeholder="Search for Entity Name, Locailty, Document Status etc" autocomplete="off" spellcheck="false" autocorrect="off" value=""></div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" id="Dashboard-Main-Info-Product-Details">
+        <div class="row" id="Dashboard-Main-Info-Inner-Details-Box">
+            <div class="col-md-12">
+                <!-- <div class="row" id="Dashboard-Data-Table-Top-Content">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dropdown show">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" id="Dashboard-Download-Files-Button">Download
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownDownloadFilePopup">
+                                        <div class="container-fluid">
+                                            <div class="row" id="Dashboard-Download-File-Popup-Row">
+                                                <div class="col-md-2"><div class="col-md-2"><img src="../static/PDF_file_icon_v1.png" style="width: 12px;"></div></div>
+                                                <div class="col-md-10"><a class="dropdown-item" href="#" onclick="exportToPDF('Main-Data-Table-Content')"><b>PDF</b></a></div>
+                                            </div>
+                                            <div class="row" id="Dashboard-Download-File-Popup-Row">
+                                                <div class="col-md-2"><img src="../static/CSV_file_icon_v1.png" style="width: 12px;"></div>
+                                                <div class="col-md-10"><a class="dropdown-item" href="#" onclick="exportToCSV('Main-Data-Table-Content')"><b>CSV</b></a></div>
+                                            </div>
+                                            <div class="row" id="Dashboard-Download-File-Popup-Row">
+                                                <div class="col-md-2"><img src="../static/Excel_file_icon_v1.png" style="width: 12px;"></div>
+                                                <div class="col-md-10"><a class="dropdown-item" href="#" onclick="exportTableToExcel('Main-Data-Table-Content')"><b>Excel</b></a></div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row" id="Dashboard-Data-Table-Content-Box">
+                    <div class="col-md-12">
+                        <div class="dropdown show">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" id="Dashboard-Download-Files-Button">Download
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownDownloadFilePopup">
+                                <div class="container-fluid">
+                                    <div class="row" id="Dashboard-Download-File-Popup-Row">
+                                        <div class="col-md-2"><div class="col-md-2"><img src="../static/PDF_file_icon_v1.png" style="width: 12px;"></div></div>
+                                        <div class="col-md-10"><a class="dropdown-item" href="#" onclick="exportToPDF('Main-Data-Table-Content')"><b>PDF</b></a></div>
+                                    </div>
+                                    <div class="row" id="Dashboard-Download-File-Popup-Row">
+                                        <div class="col-md-2"><img src="../static/CSV_file_icon_v1.png" style="width: 12px;"></div>
+                                        <div class="col-md-10"><a class="dropdown-item" href="#" onclick="exportToCSV('Main-Data-Table-Content')"><b>CSV</b></a></div>
+                                    </div>
+                                    <div class="row" id="Dashboard-Download-File-Popup-Row">
+                                        <div class="col-md-2"><img src="../static/Excel_file_icon_v1.png" style="width: 12px;"></div>
+                                        <div class="col-md-10"><a class="dropdown-item" href="#" onclick="exportTableToExcel('Main-Data-Table-Content')"><b>Excel</b></a></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive" id="Main-Data-Table-Div">
+                            <table class="table" id="Main-Data-Table-Content" style="width: 160%;">
+                                <thead id="Dashboard-Data-Table-Header-Row">
+                                    <tr>
+                                        <!-- <th>Select Document</th>
+                                        <th>Entity Name</th>
+                                        <th scope="col">Location Code</th>
+                                        <th scope="col">Type of License</th>
+                                        <th scope="col">State</th>
+                                        <th scope="col">District</th>
+                                        <th scope="col">Locality</th>
+                                        <th scope="col">Assigned Date</th> -->
+                                    </tr>
+                                    </thead>
+                                    <tbody id="Dashboard-Data-Table-Body-Row">
+
+                                    </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--        $('#start_task, #under_process_task, #onhold_task, #closed_task, #document_pen_task').click(function(event) {-->
+<!--            if ($(this).hasClass("blurred")) {-->
+<!--                $(this).removeClass("blurred");-->
+<!--                $('#taskTable').dataTable().fnDestroy();-->
+<!--                var taskDatatable = $('#taskTable').DataTable({-->
+<!--                    dom: 'B<"top"lf>t<"bottom"ip><"clear">', // Custom positioning-->
+<!--                    buttons: [-->
+<!--                        'csv', 'excel'-->
+<!--                    ],-->
+<!--                    'processing': true,-->
+<!--                    'serverSide': true,-->
+<!--                    'serverMethod': 'post',-->
+<!--                    'ajax': {-->
+<!--                        url: "{{ url_for('main.home')}}",-->
+<!--                        dataType: 'JSON',-->
+<!--                        method: 'POST',-->
+<!--                        data: {'status': task_status}-->
+<!--                    },-->
+<!--                    'lengthMenu': [10, 25, 50, 100],-->
+<!--                    searching: true,-->
+<!--                    sort: false,-->
+<!--                    "serverSide": true,-->
+<!--                    'columns': [-->
+<!--                            { data: 'entity_name'},-->
+<!--                            { data: 'location_code'},-->
+<!--                            { data: 'type_of_licence'},-->
+<!--                            { data: 'state'},-->
+<!--                            { data: 'district'},-->
+<!--                            { data: 'locality'},-->
+<!--                            { data: 'assigned_date'},-->
+<!--                            { data: 'licence_expiry_date'},-->
+<!--                            { data: 'status'},-->
+<!--                            { data: 'document'},-->
+<!--                        ]-->
+<!--                });-->
+<!--            }else{-->
+<!--                $(".text-dark").removeClass("blurred");-->
+<!--                $(this).toggleClass("blurred");-->
+<!--                var task_status = $(this).data('task_name');-->
+<!--                $('#taskTable').dataTable().fnDestroy();-->
+<!--                var taskDatatable = $('#taskTable').DataTable({-->
+<!--                    dom: 'B<"top"lf>t<"bottom"ip><"clear">', // Custom positioning-->
+<!--                    buttons: [-->
+<!--                        'csv', 'excel'-->
+<!--                    ],-->
+<!--                    'processing': true,-->
+<!--                    'serverSide': true,-->
+<!--                    'serverMethod': 'post',-->
+<!--                    'ajax': {-->
+<!--                        url: "{{ url_for('main.task_status_data')}}",-->
+<!--                        dataType: 'JSON',-->
+<!--                        method: 'POST',-->
+<!--                        data: {'status': task_status}-->
+<!--                    },-->
+<!--                    'lengthMenu': [10, 25, 50, 100],-->
+<!--                    searching: true,-->
+<!--                    sort: false,-->
+<!--                    "serverSide": true,-->
+<!--                    'columns': [-->
+<!--                            { data: 'entity_name'},-->
+<!--                            { data: 'location_code'},-->
+<!--                            { data: 'type_of_licence'},-->
+<!--                            { data: 'state'},-->
+<!--                            { data: 'district'},-->
+<!--                            { data: 'locality'},-->
+<!--                            { data: 'assigned_date'},-->
+<!--                            { data: 'licence_expiry_date'},-->
+<!--                            { data: 'status'},-->
+<!--                            { data: 'document'},-->
+<!--                        ]-->
+<!--                });-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+{% endblock content %}
