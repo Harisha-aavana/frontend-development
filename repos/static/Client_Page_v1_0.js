@@ -31,15 +31,28 @@ $(document).ready(function(){
                 headerList.push(dataArray[0][i])
             }
             populateNavigationPan(headerList)
-            $('.date-range-input').daterangepicker({
-                // singleDatePicker: true,
-                autoUpdateInput: false,
-                locale: {
-                    cancelLabel: 'Clear'
-                }
+            $('#dateModal').on('shown.bs.modal', function () {
+                $("input[name='data-range-input']").daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    dateFormat: 'yyyy-mm-dd'
+                });
+
             });
+
+            $('#dateLicenseModal').on('shown.bs.modal', function () {
+                $("input[name='data-range-input']").daterangepicker({
+                    singleDatePicker: true,
+                    showDropdowns: true,
+                    dateFormat: 'yyyy-mm-dd'
+                });
+
+            });
+            
+
             mainSearchBar()
             updateCountdown()
+            updateCountdown2()
             
             $.ajax({
                 type:'GET',
@@ -51,9 +64,9 @@ $(document).ready(function(){
                     const Upload_File_button_nodeList = document.querySelectorAll('[id^="Upload-Files-Button-Row"]');
                     for(let i=0;i<Upload_File_button_nodeList.length;i++)
                     {   
-                        var task_id = (Upload_File_button_nodeList[i].getAttribute("data-uid")).toString();
-                        // console.log(task_id)
+
                         Upload_File_button_nodeList[i].addEventListener('click', function handleClick() {
+                            var task_id = (Upload_File_button_nodeList[i].getAttribute("data-uid")).toString();
                             document.getElementById('Dashboard-Modal-Table-Body-Row').innerHTML=''
                             $.ajax({
                                 type:"POST",
@@ -82,7 +95,7 @@ $(document).ready(function(){
                                         <td file_id='`+(i+1)+`' id="category_sno_`+(i+1)+`">`+optionsList+`</td>
                                         <td><form id="Upload-Form-Modal-Input-Row"><input type='file' name='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
                                         <td id="Uploaded-File-Name-Row-`+(i+1)+`">`+filename+`</td>
-                                        <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px;" onclick="deleteFileEntry(`+document_id+`,inner_tablebody_tr_`+argv+`_`+file_id+`;)"><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
+                                        <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px;" onclick="deleteFileEntry(`+document_id+`,inner_tablebody_tr_`+argv+`_`+file_id+`)"><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
 
                                         var modal_tr_id_attr = document.createAttribute('id')
                                         modal_tr_id_attr.value = "inner_tablebody_tr_"+argv+"_"+(i+1);
@@ -145,7 +158,7 @@ function populateTable(dataArray)
         if(i==0)
         {
             var th_element = document.createElement('th');
-            th_element.innerText="Select File Type";
+            th_element.innerText="";
             var th_style_attr = document.createAttribute('style')
             th_style_attr.value="width:6%"
             th_element.setAttributeNode(th_style_attr)
@@ -218,77 +231,6 @@ function populateTable(dataArray)
                 tr_element.appendChild(th_element)    
                       
             }
-
-            // else if(j==dataArray[i].length-2)
-            // {
-            //     var td_element = document.createElement('td');
-
-            //     var anchor_element = document.createElement('a');
-            //     anchor_element.classList.add("Add-Comment-Button")
-            //     var anchor_toggle_attr = document.createAttribute('href')
-            //     anchor_toggle_attr.value="#"
-            //     var anchor_toggle_attr = document.createAttribute('data-bs-toggle')
-            //     anchor_toggle_attr.value="modal"
-                
-            //     var anchor_id_attr = document.createAttribute('id')
-            //     anchor_id_attr.value = "Add-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
-            //     var anchor_uid_attr = document.createAttribute('data-UID')
-                
-
-            //     anchor_element.setAttributeNode(anchor_toggle_attr)
-                
-            //     anchor_element.setAttributeNode(anchor_id_attr)
-
-            //     anchor_uid_attr.value=dataArray[i][0]
-            //     anchor_element.setAttributeNode(anchor_uid_attr)
-
-            //     var anchor_target_attr = document.createAttribute('onclick')
-            //     anchor_target_attr.value="openAddCommentModal("+dataArray[i][0]+","+i+")"
-            //     anchor_element.setAttributeNode(anchor_target_attr)
-
-            //     anchor_element.innerHTML='<i class="fa-sharp fa-solid fa-commenting" title="Add Comments" style="cursor:pointer;font-size:15px;"></i>'
-
-            //     td_element.appendChild(anchor_element)
-
-            //     tr_element.appendChild(td_element)
-
-            // }
-
-            // else if(j==dataArray[i].length-1)
-            // {
-            //     var td_element = document.createElement('td');
-
-            //     var anchor_element_2 = document.createElement('a');
-            //     anchor_element_2.classList.add("Edit-Comment-Button")
-            //     var anchor_toggle_attr_2 = document.createAttribute('href')
-            //     anchor_toggle_attr_2.value="#"
-            //     var anchor_toggle_attr_2 = document.createAttribute('data-bs-toggle')
-            //     anchor_toggle_attr_2.value="modal"
-            //     var anchor_target_attr_2 = document.createAttribute('data-bs-target')
-            //     anchor_target_attr_2.value="#EditModal"
-            //     var anchor_id_attr_2 = document.createAttribute('id')
-            //     anchor_id_attr_2.value = "Edit-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
-            //     var anchor_uid_attr_2 = document.createAttribute('data-UID')
-                
-
-            //     anchor_element_2.setAttributeNode(anchor_toggle_attr_2)
-            //     anchor_element_2.setAttributeNode(anchor_target_attr_2)
-            //     anchor_element_2.setAttributeNode(anchor_id_attr_2)
-
-            //     anchor_uid_attr_2.value=dataArray[i][0]
-            //     anchor_element_2.setAttributeNode(anchor_uid_attr_2)
-
-            //     var anchor_target_attr_2 = document.createAttribute('onclick')
-            //     anchor_target_attr_2.value="openEditCommentModal("+dataArray[i][0]+","+i+")"
-            //     anchor_element_2.setAttributeNode(anchor_target_attr_2)
-
-            //     anchor_element_2.innerHTML='<i class="fa-sharp fa-solid fa-pen-to-square" title="Edit Comments" style="cursor:pointer;font-size:15px;margin-left:-30px;"></i>'
-
-            //     td_element.appendChild(anchor_element_2)
-
-            //     tr_element.appendChild(td_element)
-
-            // }
 
             else
             {
@@ -390,16 +332,16 @@ function populateNavigationPan(headerList)
     var sideBar = document.getElementById('Main-Column-Search-Box');
     for(let i=0;i<headerList.length;i++)
     {
-
-        if(headerList[i] == "Assigned Date" || headerList[i]=="License Expiry Date")
+        var HTML_content="";
+        if(headerList[i] == "Assigned Date")
         {
             
             if(columnsIndexToHide.includes(i+1))
             {
-                var HTML_content = `<div class="row" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
+                HTML_content = `<div class="row sideColumnSearchBar" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
                     <div class="col-md-12">
                         <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
-                        <div class="row"><input id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282; padding-top:5px; padding-bottom:5px;font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
+                        <div class="row"><input data-bs-toggle="modal" data-bs-target="#dateModal" id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282; padding-top:5px; padding-bottom:5px;font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
                     </div>
                 </div>`
             }
@@ -407,19 +349,43 @@ function populateNavigationPan(headerList)
             
             else
             {
-                var HTML_content = `<div class="row" style="margin-top: 20px;">
+                HTML_content = `<div class="row sideColumnSearchBar" style="margin-top: 20px;">
                     <div class="col-md-12">
                         <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
-                        <div class="row"><input id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282;padding-top:5px; padding-bottom:5px; font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
+                        <div class="row"><input data-bs-toggle="modal" data-bs-target="#dateModal" id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282;padding-top:5px; padding-bottom:5px; font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
                     </div>
                 </div>`
             }
             
         }
 
+        else if(headerList[i]=="License Expiry Date")
+        {
+            if(columnsIndexToHide.includes(i+1))
+            {
+                HTML_content = `<div class="row sideColumnSearchBar" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
+                    <div class="col-md-12">
+                        <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
+                        <div class="row"><input data-bs-toggle="modal" data-bs-target="#dateLicenseModal" id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282; padding-top:5px; padding-bottom:5px;font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
+                    </div>
+                </div>`
+            }
+            
+            
+            else
+            {
+                HTML_content = `<div class="row sideColumnSearchBar" style="margin-top: 20px;">
+                    <div class="col-md-12">
+                        <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
+                        <div class="row"><input data-bs-toggle="modal" data-bs-target="#dateLicenseModal" id="`+(i+1)+`" class="sideSearchInput date-range-input" type="text" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282;padding-top:5px; padding-bottom:5px; font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
+                    </div>
+                </div>`
+            }
+        }
+
         else if(columnsIndexToHide.includes(i+1))
         {
-            var HTML_content = `<div class="row" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
+            HTML_content = `<div class="row sideColumnSearchBar" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
                 <div class="col-md-12">
                     <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
                     <div class="row"><input id="`+(i+1)+`" class="sideSearchInput" type="search" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282; padding-top:5px; padding-bottom:5px;font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
@@ -429,7 +395,7 @@ function populateNavigationPan(headerList)
         
         else 
         {
-            var HTML_content = `<div class="row" style="margin-top: 20px;">
+            HTML_content = `<div class="row sideColumnSearchBar" style="margin-top: 20px;">
                 <div class="col-md-12">
                     <div class="row"><div class="col-md-12"><span style="color: white;font-size:15px">`+headerList[i]+`</span></div></div>
                     <div class="row"><input id="`+(i+1)+`" class="sideSearchInput" type="search" placeholder="Search for `+headerList[i]+`" spellcheck="false" style="font-size:12px;color:#828282;padding-top:5px; padding-bottom:5px; font-family:'bentonsans-regular',sans-serif; width:80%;margin-left: 10px;"></div>
@@ -438,6 +404,7 @@ function populateNavigationPan(headerList)
         }
         
         sideBar.innerHTML+=HTML_content
+
     }
 
     var searchBarNodeList = document.querySelectorAll("#Main-Column-Search-Box input")
@@ -829,12 +796,59 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
 {
     var dataTable = document.getElementById("Main-Data-Table-Content");
     
-    if(columnName == "Assigned Date" || columnName=="License Expiry Date"){
-        $(searchBar).on('apply.daterangepicker', function(ev, picker){
+    if(columnName == "Assigned Date"){
+        // console.log("Here")
+        var startDateDefault = document.getElementById("startDateDefault")
+        startDateDefault.addEventListener("click",function(){
+            
+            if((document.getElementById("startDateDefault").checked)==false)
+            {
+                document.getElementById("startDateInput").disabled=false;
+            }
 
-            var startDate = picker.startDate.format('YYYY-MM-DD');
-            var endDate = picker.endDate.format('YYYY-MM-DD');
- 
+            else 
+            {
+                document.getElementById("startDateInput").disabled=true;
+            }
+
+        })
+
+        var endDateDefault = document.getElementById("endDateDefault")
+        endDateDefault.addEventListener("click",function(){
+            
+            if((document.getElementById("endDateDefault").checked)==false)
+            {
+                document.getElementById("endDateInput").disabled=false;
+            }
+
+            else 
+            {
+                document.getElementById("endDateInput").disabled=true;
+            }
+
+        })
+
+
+        $('#saveDates').on('click', function(e) {
+            var startDate = $('#startDateInput').val();
+            var endDate = $('#endDateInput').val();
+
+            if(document.getElementById("startDateInput").disabled==true)
+                startDate="01/01/0001"
+            
+            if(document.getElementById("endDateInput").disabled==true)
+                endDate="12/31/9999"
+
+            // Handle saving dates or performing other actions
+            var startDateList = startDate.split("/")
+            startDate = startDateList[2]+"-"+startDateList[0]+"-"+startDateList[1]
+
+            var endDateList = endDate.split("/")
+            endDate = endDateList[2]+"-"+endDateList[0]+"-"+endDateList[1]
+
+            // console.log('Start Date:', startDate);
+            // console.log('End Date:', endDate);
+
             var rows = dataTable.getElementsByTagName("tr");
 
             // Loop through the table rows
@@ -846,26 +860,140 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
                 var cellText = cell.textContent.toLowerCase();
 
                 var cellTextDate = cellText.split("/").reverse().join("-")
-                // console.log(cellTextDate)
 
                 var startD1 = Date.parse(startDate)
                 var endD2 = Date.parse(endDate)
                 var cellD3 = Date.parse(cellTextDate)
 
                 // Show or hide the row based on whether the text was found
-            
+                
                 if ((startD1<=cellD3) && (endD2>=cellD3)) 
                 {
-                    
                     row.style.display = "";
                 } 
                 else 
                 {
                     row.style.display = "none";
-                }            
+                }          
             
             }
+
+            $("#dateModal").modal('toggle');
+
+            if(endDate=="9999-12-31" && startDate=="0001-01-01")
+                document.getElementById(selectedColumn).value="All";
+
+            else if(endDate=="9999-12-31")
+                document.getElementById(selectedColumn).value=startDate+" onwards ";
+
+            else if(startDate=="0001-01-01")
+                document.getElementById(selectedColumn).value="Till "+endDate;
+
+            else
+                document.getElementById(selectedColumn).value=startDate+" To "+endDate;
         })
+    }
+
+    else if(columnName=="License Expiry Date")
+    {
+        
+        // console.log("Here")
+        var startLicenseDateDefault = document.getElementById("startLicenseDateDefault")
+        startLicenseDateDefault.addEventListener("click",function(){
+            
+            if((document.getElementById("startLicenseDateDefault").checked)==false)
+            {
+                document.getElementById("startLicenseDateInput").disabled=false;
+            }
+
+            else 
+            {
+                document.getElementById("startLicenseDateInput").disabled=true;
+            }
+
+        })
+
+        var endLicenseDateDefault = document.getElementById("endLicenseDateDefault")
+        endLicenseDateDefault.addEventListener("click",function(){
+            
+            if((document.getElementById("endLicenseDateDefault").checked)==false)
+            {
+                document.getElementById("endLicenseDateInput").disabled=false;
+            }
+
+            else 
+            {
+                document.getElementById("endLicenseDateInput").disabled=true;
+            }
+
+        })
+        
+              
+        $('#saveLicenseDates').on('click', function(e) {
+            var startDate = $('#startLicenseDateInput').val();
+            var endDate = $('#endLicenseDateInput').val();
+
+            if(document.getElementById("startLicenseDateInput").disabled==true)
+                startDate="01/01/0001"
+            
+            if(document.getElementById("endLicenseDateInput").disabled==true)
+                endDate="12/31/9999"
+
+            // Handle saving dates or performing other actions
+            var startDateList = startDate.split("/")
+            startDate = startDateList[2]+"-"+startDateList[0]+"-"+startDateList[1]
+
+            var endDateList = endDate.split("/")
+            endDate = endDateList[2]+"-"+endDateList[0]+"-"+endDateList[1]
+
+            // Handle saving dates or performing other actions
+            console.log('Start Date:', startDate);
+            console.log('End Date:', endDate);
+
+            var rows = dataTable.getElementsByTagName("tr");
+
+            // Loop through the table rows
+            for (var i = 2; i < rows.length; i++) { // Start from 1 to skip the header row
+                var row = rows[i];
+                var cells = row.getElementsByTagName("td");
+
+                var cell = cells[selectedColumn];
+                var cellText = cell.textContent.toLowerCase();
+
+                var cellTextDate = cellText.split("/").reverse().join("-")
+
+                var startD1 = Date.parse(startDate)
+                var endD2 = Date.parse(endDate)
+                var cellD3 = Date.parse(cellTextDate)
+
+                // Show or hide the row based on whether the text was found
+                
+                if ((startD1<=cellD3) && (endD2>=cellD3)) 
+                {
+                    row.style.display = "";
+                } 
+                else 
+                {
+                    row.style.display = "none";
+                }          
+            
+            }
+
+            $("#dateLicenseModal").modal('toggle');
+
+            if(endDate=="9999-12-31" && startDate=="0001-01-01")
+                document.getElementById(selectedColumn).value="All";
+
+            else if(endDate=="9999-12-31")
+                document.getElementById(selectedColumn).value=startDate+" onwards ";
+
+            else if(startDate=="0001-01-01")
+                document.getElementById(selectedColumn).value="Till "+endDate;
+
+            else
+                document.getElementById(selectedColumn).value=startDate+" To "+endDate;
+
+          });
     }
 
     else
@@ -874,8 +1002,7 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
         searchBar.addEventListener("keyup", function() {
             var searchText = searchBar.value.toLowerCase();
             var rows = dataTable.getElementsByTagName("tr");
-            console.log("Here")
-            console.log(columnName)
+            
             // Loop through the table rows
             for (var i = 2; i < rows.length; i++) { // Start from 1 to skip the header row
                 var row = rows[i];
@@ -937,6 +1064,32 @@ function updateCountdown()
 
         countdown.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
         setTimeout(updateCountdown, 1000); // Update every 1 second
+    }
+}
+
+function updateCountdown2() 
+{
+    const timeRemaining = calculateTimeRemaining();
+
+    if (timeRemaining <= 0) 
+    {
+        // Calculate the target date for 11:00 AM of the next day
+        const nextDay = new Date();
+        nextDay.setHours(11, 0, 0, 0);
+        nextDay.setDate(nextDay.getDate() + 1);
+
+        countdown2.innerHTML = "Countdown expired!";
+        setTimeout(updateCountdown2, nextDay - new Date()); // Reset at 11:00 AM next day
+    } 
+    
+    else 
+    {
+        const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        countdown2.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+        setTimeout(updateCountdown2, 1000); // Update every 1 second
     }
 }
 
@@ -1022,4 +1175,39 @@ $.fn.dataTable.ext.type.order['custom-date-desc'] = function(a, b) {
     a = a.split('/').reverse().join('');
     b = b.split('/').reverse().join('');
     return b.localeCompare(a);
+}
+
+function collapseSideNav()
+{
+    console.log("clicked!");
+    a=document.getElementById("Main-Column-Search-Box")
+    b = a.getElementsByClassName("sideColumnSearchBar")
+
+    if(document.getElementById("Dashboard-Side-Col").style.display=="")
+    {
+        // console.log("Hide")
+        document.getElementById("Dashboard-Side-Col").style.display="none"
+        document.getElementById("Dashboard-Center-Col").className = "col-md-12";
+        document.getElementById("after-collapse").style.display="";
+        document.getElementById("before-collapse").style.display="none";
+        document.getElementById("Main-Data-Table-Content").style.width="120%"
+        document.getElementsByClassName("footer")[0].style.width="100%"
+        document.getElementById("Dashboard-Download-Files-Button").style.marginLeft="1200px"
+        document.getElementById("Dashboard-Main-Info-Product-Details").style.marginLeft="10px"
+        document.getElementById("Dashboard-Main-Info-Pane").className="row"
+    }
+
+    else 
+    {
+        // console.log("Show")
+        document.getElementById("Dashboard-Side-Col").style.display=""
+        document.getElementById("Dashboard-Center-Col").className = "col-md-10";
+        document.getElementById("after-collapse").style.display="none";
+        document.getElementById("before-collapse").style.display="";
+        document.getElementById("Main-Data-Table-Content").style.width="200%"
+        document.getElementsByClassName("footer")[0].style.width="80%"
+        document.getElementById("Dashboard-Download-Files-Button").style.marginLeft="900px"
+        document.getElementById("Dashboard-Main-Info-Product-Details").style.marginLeft="0px"
+        document.getElementById("Dashboard-Main-Info-Pane").className="container row"   
+    }
 }
