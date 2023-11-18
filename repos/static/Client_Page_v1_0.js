@@ -19,7 +19,7 @@ $(document).ready(function(){
     $.ajax({
         type: "POST",
         url: "/aavana_home",
-        data: uploadFileObject, 
+        data: uploadFileObject,
         dataType: 'json',
         success: function(res){
             dataArray = res["dataArray"]
@@ -48,12 +48,12 @@ $(document).ready(function(){
                 });
 
             });
-            
+
 
             mainSearchBar()
             updateCountdown()
             updateCountdown2()
-            
+
             $.ajax({
                 type:'GET',
                 url:"/file_type",
@@ -63,7 +63,7 @@ $(document).ready(function(){
 
                     const Upload_File_button_nodeList = document.querySelectorAll('[id^="Upload-Files-Button-Row"]');
                     for(let i=0;i<Upload_File_button_nodeList.length;i++)
-                    {   
+                    {
 
                         Upload_File_button_nodeList[i].addEventListener('click', function handleClick() {
                             var task_id = (Upload_File_button_nodeList[i].getAttribute("data-uid")).toString();
@@ -76,7 +76,7 @@ $(document).ready(function(){
                                 success: function(uploadedDocumentList){
                                     // console.log("here")
                                     console.log(uploadedDocumentList)
-                                    
+
                                     for(let j=0;j<uploadedDocumentList.length;j++)
                                     {
                                         // console.log(uploadedDocumentList[i])
@@ -90,7 +90,7 @@ $(document).ready(function(){
 
                                         var tableBody = document.getElementById('Dashboard-Modal-Table-Body-Row');
 
-                                        var tr_element = document.createElement('tr');   
+                                        var tr_element = document.createElement('tr');
                                         var HTML_content = `<td><div class="form-check"><input class="form-check-input" data-pid="`+pid+`" data-uid="`+argv+`" file_id='`+(i+1)+`' type="checkbox" name="categoryCheckBox" value="`+optionsList+`" id="flexCheckDefault-Row-`+(i+1)+`" onchange="if(document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled==true){document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=false} else {document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=true}" checked><label class="form-check-label" for="flexCheckDefault-Row-`+(i+1)+`"></label></div></td>
                                         <td file_id='`+(i+1)+`' id="category_sno_`+(i+1)+`">`+optionsList+`</td>
                                         <td><form id="Upload-Form-Modal-Input-Row"><input type='file' name='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
@@ -101,7 +101,7 @@ $(document).ready(function(){
                                         modal_tr_id_attr.value = "inner_tablebody_tr_"+argv+"_"+(i+1);
                                         tr_element.setAttributeNode(modal_tr_id_attr)
 
-                                    
+
                                         tr_element.innerHTML=HTML_content;
                                         tableBody.appendChild(tr_element)
 
@@ -124,8 +124,8 @@ $(document).ready(function(){
 
 
 function populateTable(dataArray)
-{   
-    
+{
+
     var tableHead = document.getElementById('Dashboard-Data-Table-Header-Row');
     var tableBody = document.getElementById('Dashboard-Data-Table-Body-Row');
 
@@ -133,7 +133,7 @@ function populateTable(dataArray)
     {
         // console.log("Here !!!!")
         var tr_element = document.createElement('tr');
-        
+
         var button_element = document.createElement('a');
         button_element.classList.add("Upload-Files-Button")
         var button_toggle_attr = document.createAttribute('href')
@@ -153,7 +153,7 @@ function populateTable(dataArray)
         button_element.setAttributeNode(button_id_attr)
 
         button_element.innerText="Document Type"
-        
+
 
         if(i==0)
         {
@@ -162,9 +162,9 @@ function populateTable(dataArray)
             var th_style_attr = document.createAttribute('style')
             th_style_attr.value="width:6%"
             th_element.setAttributeNode(th_style_attr)
-            tr_element.appendChild(th_element) 
+            tr_element.appendChild(th_element)
         }
-        
+
         else
         {
             // console.log(i)
@@ -174,7 +174,7 @@ function populateTable(dataArray)
             button_element.setAttributeNode(button_uid_attr)
             button_pid_attr.value=dataArray[i][7]
             button_element.setAttributeNode(button_pid_attr)
-            button_element.innerHTML='<i class="fa-solid fa-file" title="Add Documents" style="cursor:pointer;font-size:20px;margin-left:20px;"></i>'   
+            button_element.innerHTML='<i class="fa-solid fa-file" title="Add Documents" style="cursor:pointer;font-size:20px;margin-left:20px;"></i>'
             td_element.appendChild(button_element)
 
             var anchor_element_2 = document.createElement('a');
@@ -188,7 +188,7 @@ function populateTable(dataArray)
             var anchor_id_attr_2 = document.createAttribute('id')
             anchor_id_attr_2.value = "Edit-Comment-Button-Row-"+(i)  // Here we are not doing i+1, because first row i.e. 0 will be the header. Thus, we will start from index 1 and hence it will be Row 1
             var anchor_uid_attr_2 = document.createAttribute('data-UID')
-            
+
 
             anchor_element_2.setAttributeNode(anchor_toggle_attr_2)
             anchor_element_2.setAttributeNode(anchor_target_attr_2)
@@ -206,8 +206,8 @@ function populateTable(dataArray)
 
             td_element.appendChild(anchor_element_2)
 
-            tr_element.appendChild(td_element) 
-        
+            tr_element.appendChild(td_element)
+
         }
 
         for(let j=1;j<dataArray[i].length;j++)
@@ -219,7 +219,7 @@ function populateTable(dataArray)
                 th_element.innerText=dataArray[i][j];
                 if(columnsIndexToHide.includes(j))
                 {
-                    
+
                     var th_style_attr = document.createAttribute('style')
                     th_style_attr.value = "display:none"
                     th_element.setAttributeNode(th_style_attr)
@@ -228,8 +228,8 @@ function populateTable(dataArray)
                     th_id_attr.value = "Main-Data-Table-Column-"+(j+1)
                     th_element.setAttributeNode(th_id_attr)
                 }
-                tr_element.appendChild(th_element)    
-                      
+                tr_element.appendChild(th_element)
+
             }
 
             else
@@ -245,7 +245,7 @@ function populateTable(dataArray)
                 }
                 if(columnsIndexToHide.includes(j))
                 {
-                    
+
                     var td_style_attr = document.createAttribute('style')
                     td_style_attr.value = "display:none"
                     td_element.setAttributeNode(td_style_attr)
@@ -255,7 +255,7 @@ function populateTable(dataArray)
                     td_element.setAttributeNode(td_id_attr)
                 }
 
-                tr_element.appendChild(td_element) 
+                tr_element.appendChild(td_element)
                 var tr_id_attr = document.createAttribute('id')
                 tr_id_attr.value = "tablebody_tr_"+dataArray[i][0]
                 tr_element.setAttributeNode(tr_id_attr)
@@ -268,7 +268,7 @@ function populateTable(dataArray)
         {
             tableHead.appendChild(tr_element)
         }
-        
+
         else
         {
             tableBody.appendChild(tr_element)
@@ -284,16 +284,16 @@ function populateTable(dataArray)
         //     { orderable: true, className: 'reorder', type: 'custom-date', targets: 8 },
         //     { orderable: false, targets: '_all' }
         // ]
-    
+
     });
 
     var showColumnsDropdownElement = document.getElementById("Dashboard-Show-Columns-Dropdown_List")
     showColumnsDropdownElement.addEventListener('change', function(){
 
         var checkboxes = document.querySelectorAll("#Dashboard-Show-Columns-Dropdown_List .form-check-input");
-    
+
         // Starting from index, because "Basic Columns" will be by-default checked all the time and it will be at index 0
-        for (var i = 1; i < checkboxes.length; i++) 
+        for (var i = 1; i < checkboxes.length; i++)
         {
             var selectedColumn = checkboxes[i].value;
             var indexforColumn = columnsToHide[selectedColumn]
@@ -302,7 +302,7 @@ function populateTable(dataArray)
             for(let j=0;j<elementColumnsList.length;j++)
             {
                 var elementColumns = elementColumnsList[j]
-                
+
                 if (elementColumns.style.display === "none") {
                     elementColumns.style.display = null;
                 } else {
@@ -312,17 +312,17 @@ function populateTable(dataArray)
 
 
             var sideNavColumnsList = document.getElementById("sideColumnSearchBar-"+(indexforColumn))
-    
+
             if (sideNavColumnsList.style.display === "none") {
                 sideNavColumnsList.style.display = null;
             } else {
                 sideNavColumnsList.style.display = "none";
             }
-            
-            
-            
+
+
+
         }
-        
+
 
     })
 }
@@ -335,7 +335,7 @@ function populateNavigationPan(headerList)
         var HTML_content="";
         if(headerList[i] == "Assigned Date")
         {
-            
+
             if(columnsIndexToHide.includes(i+1))
             {
                 HTML_content = `<div class="row sideColumnSearchBar" id="sideColumnSearchBar-`+(i+1)+`" style="display:none;margin-top: 20px;">
@@ -345,8 +345,8 @@ function populateNavigationPan(headerList)
                     </div>
                 </div>`
             }
-            
-            
+
+
             else
             {
                 HTML_content = `<div class="row sideColumnSearchBar" style="margin-top: 20px;">
@@ -356,7 +356,7 @@ function populateNavigationPan(headerList)
                     </div>
                 </div>`
             }
-            
+
         }
 
         else if(headerList[i]=="License Expiry Date")
@@ -370,8 +370,8 @@ function populateNavigationPan(headerList)
                     </div>
                 </div>`
             }
-            
-            
+
+
             else
             {
                 HTML_content = `<div class="row sideColumnSearchBar" style="margin-top: 20px;">
@@ -392,8 +392,8 @@ function populateNavigationPan(headerList)
                 </div>
             </div>`
         }
-        
-        else 
+
+        else
         {
             HTML_content = `<div class="row sideColumnSearchBar" style="margin-top: 20px;">
                 <div class="col-md-12">
@@ -402,7 +402,7 @@ function populateNavigationPan(headerList)
                 </div>
             </div>`
         }
-        
+
         sideBar.innerHTML+=HTML_content
 
     }
@@ -430,7 +430,7 @@ function populateUploadFilesPage(fileTypeList,optionsList,argv,pid)
     }
 
     dropdownMenu.innerHTML+=HTML_content;
-    
+
     var tableBody = document.getElementById('Dashboard-Modal-Table-Body-Row');
     tableBody.innerHTML= tableBody.innerHTML;
 
@@ -448,7 +448,7 @@ function populateUploadFilesPage(fileTypeList,optionsList,argv,pid)
                 addCategories(dropdownListNodes[i].value,Row_Key,UID_key,PID_key,1)
             }
 
-            else 
+            else
             {
                 addCategories(dropdownListNodes[i].value,Row_Key,UID_key,PID_key,0)
 
@@ -463,7 +463,7 @@ function addCategories(optionsList,i,argv,pid,add)
 
     var tableBody = document.getElementById('Dashboard-Modal-Table-Body-Row');
 
-    var tr_element = document.createElement('tr');   
+    var tr_element = document.createElement('tr');
     var HTML_content = `<td><div class="form-check"><input class="form-check-input" data-pid="`+pid+`" data-uid="`+argv+`" file_id='`+(i+1)+`' type="checkbox" name="categoryCheckBox" value="`+optionsList+`" id="flexCheckDefault-Row-`+(i+1)+`" onchange="if(document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled==true){document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=false} else {document.getElementById('Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`').disabled=true}" checked><label class="form-check-label" for="flexCheckDefault-Row-`+(i+1)+`"></label></div></td>
     <td file_id='`+(i+1)+`' id="category_sno_`+(i+1)+`">`+optionsList+`</td>
     <td><form id="Upload-Form-Modal-Input-Row"><input type='file' name='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
@@ -479,8 +479,8 @@ function addCategories(optionsList,i,argv,pid,add)
         tr_element.innerHTML=HTML_content;
         tableBody.appendChild(tr_element)
     }
-    
-    else 
+
+    else
     {
         document.getElementById("inner_tablebody_tr_"+argv+"_"+(i+1)).remove()
     }
@@ -496,7 +496,7 @@ function exportTableToExcel(tableID, filename = '')
     XLSX.writeFile(wb, 'Aavana_Product_Summary.xlsx');
 }
 
-function exportToCSV(tableID, filename = '') 
+function exportToCSV(tableID, filename = '')
 {
     const table = document.getElementById(tableID);
     const ws = XLSX.utils.table_to_sheet(table);
@@ -510,7 +510,7 @@ function exportToCSV(tableID, filename = '')
     document.body.removeChild(link);
 }
 
-function exportToPDF(tableID, filename = '') 
+function exportToPDF(tableID, filename = '')
 {
     const table = document.getElementById(tableID);
     const pdf = new jsPDF();
@@ -537,14 +537,14 @@ function addFileUploadList(i,task_id,project_id,inputElement)
 function submitFileForm()
 {
     var allUploadedCategories = document.querySelectorAll("#Dashboard-Modal-Table-Body-Row .form-check-input");
-    
+
     for(let i=0;i<allUploadedCategories.length;i++)
     {
         if(allUploadedCategories[i].checked)
         {
-            var task_id = allUploadedCategories[i].getAttribute('data-uid')  ; 
-            var project_id = allUploadedCategories[i].getAttribute('data-pid')  ; 
-            var file_id = allUploadedCategories[i].getAttribute('file_id')  ; 
+            var task_id = allUploadedCategories[i].getAttribute('data-uid')  ;
+            var project_id = allUploadedCategories[i].getAttribute('data-pid')  ;
+            var file_id = allUploadedCategories[i].getAttribute('file_id')  ;
 
             var selectedFile = document.getElementById("Upload-Files-Modal-Input-Row-"+file_id+"-"+task_id).files[0];
             if(selectedFile)
@@ -554,13 +554,14 @@ function submitFileForm()
                     formData.append('file', selectedFile);
                     formData.append('task_id', task_id);
                     formData.append('project_id', project_id);
-        
+                    formData.append('file_id', file_id);
+
                     console.log(formData)
-        
+
                     $.ajax({
                         type: "POST",
                         url: "/upload",
-                        data: formData, 
+                        data: formData,
                         dataType: 'json',
                         processData: false,
                         contentType: false,
@@ -572,7 +573,7 @@ function submitFileForm()
                     });
             }
 
-            else 
+            else
             {
                 alert("You haven't uploaded the file for "+allUploadedCategories[i].value+" category!")
             }
@@ -587,7 +588,7 @@ function deleteFileEntry(document_id,tr_element_id)
     $.ajax({
         type: "POST",
         url: "/delete_document",
-        data: {"docId":document_id}, 
+        data: {"docId":document_id},
         dataType: 'json',
             success: function(){
                 document.getElementById(tr_element_id).remove();
@@ -617,7 +618,7 @@ function openAddCommentModal(task_id, row_num)
 
 function openEditCommentModal(task_id, row_num)
 {
-    
+
     console.log(task_id)
     console.log(row_num)
 
@@ -642,10 +643,10 @@ function openEditCommentModal(task_id, row_num)
     var editCommentOnclick = document.createAttribute('onclick')
     editCommentOnclick.value="editComment("+task_id+","+row_num+")"
     saveEditCommentsButton.setAttributeNode(editCommentOnclick)
-    
+
     $.ajax({
         type: "POST",
-        data: {"task_id":task_id}, 
+        data: {"task_id":task_id},
         dataType: 'json',
         url: "/getCommentsHistory",
             success: function(res){
@@ -659,7 +660,7 @@ function openEditCommentModal(task_id, row_num)
                     {
                         var recordEntry=res[i];
                         var tr_element = document.createElement("tr");
-                        
+
                         for(let j=1;j<4;j++)
                         {
                             var td_element = document.createElement("td") ;
@@ -681,7 +682,7 @@ function openEditCommentModal(task_id, row_num)
                     }
                 }
 
-                else 
+                else
                 {
                     document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).innerText="";
                     document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).disabled=true;
@@ -696,7 +697,7 @@ function openEditCommentModal(task_id, row_num)
 function addComment(task_id, row_num)
 {
     document.getElementById("addCommentsModal-"+task_id+"-"+row_num).disabled=true;
-    
+
     console.log("AJAX Add Comment")
     var comment = document.getElementById("addCommentTextarea-"+task_id+"-"+row_num).value;
 
@@ -717,7 +718,7 @@ function addComment(task_id, row_num)
     $.ajax({
         type: "POST",
         url: "/add_comment",
-        data: uploadCommentObj, 
+        data: uploadCommentObj,
         dataType: 'json',
             success: function(){
                 alert("Your Comment is added successfully!")
@@ -748,7 +749,7 @@ function editComment(task_id, row_num)
     $.ajax({
         type: "POST",
         url: "/add_comment",
-        data: uploadCommentObj, 
+        data: uploadCommentObj,
         dataType: 'json',
             success: function(){
                 alert("Your Comment is edited successfully!")
@@ -795,18 +796,18 @@ function mainSearchBar()
 function columnLevelSearchBar(searchBar,selectedColumn,columnName)
 {
     var dataTable = document.getElementById("Main-Data-Table-Content");
-    
+
     if(columnName == "Assigned Date"){
         // console.log("Here")
         var startDateDefault = document.getElementById("startDateDefault")
         startDateDefault.addEventListener("click",function(){
-            
+
             if((document.getElementById("startDateDefault").checked)==false)
             {
                 document.getElementById("startDateInput").disabled=false;
             }
 
-            else 
+            else
             {
                 document.getElementById("startDateInput").disabled=true;
             }
@@ -815,13 +816,13 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
 
         var endDateDefault = document.getElementById("endDateDefault")
         endDateDefault.addEventListener("click",function(){
-            
+
             if((document.getElementById("endDateDefault").checked)==false)
             {
                 document.getElementById("endDateInput").disabled=false;
             }
 
-            else 
+            else
             {
                 document.getElementById("endDateInput").disabled=true;
             }
@@ -835,7 +836,7 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
 
             if(document.getElementById("startDateInput").disabled==true)
                 startDate="01/01/0001"
-            
+
             if(document.getElementById("endDateInput").disabled==true)
                 endDate="12/31/9999"
 
@@ -866,16 +867,16 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
                 var cellD3 = Date.parse(cellTextDate)
 
                 // Show or hide the row based on whether the text was found
-                
-                if ((startD1<=cellD3) && (endD2>=cellD3)) 
+
+                if ((startD1<=cellD3) && (endD2>=cellD3))
                 {
                     row.style.display = "";
-                } 
-                else 
+                }
+                else
                 {
                     row.style.display = "none";
-                }          
-            
+                }
+
             }
 
             $("#dateModal").modal('toggle');
@@ -896,17 +897,17 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
 
     else if(columnName=="License Expiry Date")
     {
-        
+
         // console.log("Here")
         var startLicenseDateDefault = document.getElementById("startLicenseDateDefault")
         startLicenseDateDefault.addEventListener("click",function(){
-            
+
             if((document.getElementById("startLicenseDateDefault").checked)==false)
             {
                 document.getElementById("startLicenseDateInput").disabled=false;
             }
 
-            else 
+            else
             {
                 document.getElementById("startLicenseDateInput").disabled=true;
             }
@@ -915,27 +916,27 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
 
         var endLicenseDateDefault = document.getElementById("endLicenseDateDefault")
         endLicenseDateDefault.addEventListener("click",function(){
-            
+
             if((document.getElementById("endLicenseDateDefault").checked)==false)
             {
                 document.getElementById("endLicenseDateInput").disabled=false;
             }
 
-            else 
+            else
             {
                 document.getElementById("endLicenseDateInput").disabled=true;
             }
 
         })
-        
-              
+
+
         $('#saveLicenseDates').on('click', function(e) {
             var startDate = $('#startLicenseDateInput').val();
             var endDate = $('#endLicenseDateInput').val();
 
             if(document.getElementById("startLicenseDateInput").disabled==true)
                 startDate="01/01/0001"
-            
+
             if(document.getElementById("endLicenseDateInput").disabled==true)
                 endDate="12/31/9999"
 
@@ -967,16 +968,16 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
                 var cellD3 = Date.parse(cellTextDate)
 
                 // Show or hide the row based on whether the text was found
-                
-                if ((startD1<=cellD3) && (endD2>=cellD3)) 
+
+                if ((startD1<=cellD3) && (endD2>=cellD3))
                 {
                     row.style.display = "";
-                } 
-                else 
+                }
+                else
                 {
                     row.style.display = "none";
-                }          
-            
+                }
+
             }
 
             $("#dateLicenseModal").modal('toggle');
@@ -1002,7 +1003,7 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
         searchBar.addEventListener("keyup", function() {
             var searchText = searchBar.value.toLowerCase();
             var rows = dataTable.getElementsByTagName("tr");
-            
+
             // Loop through the table rows
             for (var i = 2; i < rows.length; i++) { // Start from 1 to skip the header row
                 var row = rows[i];
@@ -1012,28 +1013,28 @@ function columnLevelSearchBar(searchBar,selectedColumn,columnName)
                 var cellText = cell.textContent.toLowerCase();
 
                 // Show or hide the row based on whether the text was found
-            
-                if (cellText.includes(searchText)) 
+
+                if (cellText.includes(searchText))
                 {
                     row.style.display = "";
-                } 
-                else 
+                }
+                else
                 {
                     row.style.display = "none";
-                }            
-            
+                }
+
             }
         });
     }
-    
+
 }
 
-function calculateTimeRemaining() 
+function calculateTimeRemaining()
 {
     const currentDate = new Date();
     const targetDate = new Date(currentDate);
     targetDate.setHours(11, 0, 0, 0); // Set the target time to 11:00 AM
-    if (currentDate >= targetDate) 
+    if (currentDate >= targetDate)
     {
         targetDate.setDate(targetDate.getDate() + 1);
     }
@@ -1041,11 +1042,11 @@ function calculateTimeRemaining()
 
 }
 
-function updateCountdown() 
+function updateCountdown()
 {
     const timeRemaining = calculateTimeRemaining();
 
-    if (timeRemaining <= 0) 
+    if (timeRemaining <= 0)
     {
         // Calculate the target date for 11:00 AM of the next day
         const nextDay = new Date();
@@ -1054,9 +1055,9 @@ function updateCountdown()
 
         countdown.innerHTML = "Countdown expired!";
         setTimeout(updateCountdown, nextDay - new Date()); // Reset at 11:00 AM next day
-    } 
-    
-    else 
+    }
+
+    else
     {
         const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
         const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
@@ -1067,11 +1068,11 @@ function updateCountdown()
     }
 }
 
-function updateCountdown2() 
+function updateCountdown2()
 {
     const timeRemaining = calculateTimeRemaining();
 
-    if (timeRemaining <= 0) 
+    if (timeRemaining <= 0)
     {
         // Calculate the target date for 11:00 AM of the next day
         const nextDay = new Date();
@@ -1080,9 +1081,9 @@ function updateCountdown2()
 
         countdown2.innerHTML = "Countdown expired!";
         setTimeout(updateCountdown2, nextDay - new Date()); // Reset at 11:00 AM next day
-    } 
-    
-    else 
+    }
+
+    else
     {
         const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
         const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
@@ -1131,9 +1132,9 @@ function applyFilter()
 
         for (var i = 2; i < table.rows.length; i++) { // Start from 1 to skip the header row
             var row = table.rows[i];
-            var cell = row.cells[columnforAssignedDate-1]; 
+            var cell = row.cells[columnforAssignedDate-1];
             var assignedDate = parseDateFromString(cell.textContent);
-            
+
             if (assignedDate >= oneWeekAgo && assignedDate <= today) {
                 row.style.display = "";
             } else {
@@ -1197,7 +1198,7 @@ function collapseSideNav()
         document.getElementById("Dashboard-Main-Info-Pane").className="row"
     }
 
-    else 
+    else
     {
         // console.log("Show")
         document.getElementById("Dashboard-Side-Col").style.display=""
@@ -1208,6 +1209,6 @@ function collapseSideNav()
         document.getElementsByClassName("footer")[0].style.width="80%"
         document.getElementById("Dashboard-Download-Files-Button").style.marginLeft="900px"
         document.getElementById("Dashboard-Main-Info-Product-Details").style.marginLeft="0px"
-        document.getElementById("Dashboard-Main-Info-Pane").className="container row"   
+        document.getElementById("Dashboard-Main-Info-Pane").className="container row"
     }
 }

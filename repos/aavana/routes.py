@@ -79,6 +79,7 @@ def upload():
         file = request.files['file']
         task_id = request.form['task_id']
         project_id = request.form['project_id']
+        file_id = request.form['file_id']
         if file.filename == '':
             return jsonify({"error": "No selected file"}), 400
         document_data = {}
@@ -96,7 +97,7 @@ def upload():
         document_data['file_path'] = file_path[5:]
         file.save(file_path)
 
-        document_info = Document(file_name=filename, task_id=task_id)
+        document_info = Document(file_name=filename, task_id=task_id, file_id=file_id)
         db.session.add(document_info)
         db.session.flush()
         saved_document_id = document_info.id
@@ -231,7 +232,7 @@ def getUploadedDocument():
     if request.method == 'POST':
         task_id = request.form['task_id']
         try:
-            doc_data = Document.query.with_entities(Document.file_id, Document.file_name, Document.task_id, Project.id, Project.project_name, Files.id, Files.filename).join(Task, Document.task_id == Task.task_id).join(Project, Task.project_id == Project.id, isouter=True).join(Files, Files.id == Document.file_id).filter(Document.task_id == task_id).all()
+            doc_data = Document.query.with_entities(Document.id, Document.file_id, Document.file_name, Document.task_id, Project.id, Project.project_name, Files.id, Files.filename).join(Task, Document.task_id == Task.task_id).join(Project, Task.project_id == Project.id, isouter=True).join(Files, Files.id == Document.file_id).filter(Document.task_id == task_id, Document.file_status == 0).all()
             data = []
             for document in doc_data:
                 document_info = {}
