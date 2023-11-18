@@ -100,7 +100,7 @@ $(document).ready(function(){
                                         <td file_id='`+(i+1)+`' id="category_sno_`+(i+1)+`">`+optionsList+`</td>
                                         <td><form id="Upload-Form-Modal-Input-Row"><input type='file' name='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
                                         <td id="Uploaded-File-Name-Row-`+(i+1)+`">`+filename+`</td>
-                                        <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px;" onclick="deleteFileEntry(`+document_id+`,inner_tablebody_tr_`+argv+`_`+file_id+`)"><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
+                                        <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px;" onclick="deleteFileEntry(`+document_id+`,inner_tablebody_tr_`+argv+`_`+file_id+`,'`+pid+`','`+argv+`',`+file_id+`)"><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
 
                                         var modal_tr_id_attr = document.createAttribute('id')
                                         modal_tr_id_attr.value = "inner_tablebody_tr_"+argv+"_"+(i+1);
@@ -476,7 +476,7 @@ function addCategories(optionsList,i,argv,pid,add)
     <td file_id='`+(i+1)+`' id="category_sno_`+(i+1)+`">`+optionsList+`</td>
     <td><form id="Upload-Form-Modal-Input-Row"><input type='file' name='file' data-pid="`+pid+`" data-uid="`+argv+`" id="Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`" name='documentUpload' onchange="addFileUploadList('`+i+`','`+argv+`','`+pid+`','Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`')" style="display: none;"><button type="button" class="btn btn-primary" style="font-size:12px; margin-top:-5px" id="Upload-Files-Modal-Button-Row-`+(i+1)+`-`+argv+`" onclick="document.getElementById('Upload-Files-Modal-Input-Row-`+(i+1)+`-`+argv+`').click()">Upload</button></input></form></td>
     <td id="Uploaded-File-Name-Row-`+(i+1)+`"></td>
-    <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px; display:none" onclick="deleteFileEntry(0,inner_tablebody_tr_`+argv+`_`+(parseInt(i)+1)+`)"><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
+    <td><button id="Uploaded-File-Delete-Row-`+(i+1)+`" class="btn" style="margin-top: -10px; display:none" onclick="deleteFileEntry(0,inner_tablebody_tr_`+argv+`_`+(parseInt(i)+1)+`,'`+pid+`','`+argv+`',`+(parseInt(i)+1)+`)"><i class="fa fa-trash" aria-hidden="true" style="color:#940d12"></i></button></td>`
 
     var modal_tr_id_attr = document.createAttribute('id')
     modal_tr_id_attr.value = "inner_tablebody_tr_"+argv+"_"+(i+1);
@@ -582,7 +582,7 @@ function submitFileForm()
                         contentType: false,
                         success: function(document_id){
                             // console.log(document_id)
-                            document.getElementById("Uploaded-File-Delete-Row-"+file_id).setAttribute("onclick","deleteFileEntry("+document_id+",inner_tablebody_tr_"+task_id+"_"+file_id+";)");
+                            document.getElementById("Uploaded-File-Delete-Row-"+file_id).setAttribute("onclick","deleteFileEntry("+document_id+",inner_tablebody_tr_"+task_id+"_"+file_id+",'"+project_id+"','"+task_id+"','"+file_id+"')");
                             
                         }
                     });
@@ -600,10 +600,13 @@ function submitFileForm()
     location.reload();
 }
 
-function deleteFileEntry(document_id,tr_element_id)
+function deleteFileEntry(document_id,tr_element_id,pid,argv,category_sno)
 {
     // console.log(document_id)
     // console.log(tr_element_id)
+    // console.log(pid)
+    // console.log(argv)
+    // console.log(category_sno)
     
     if(document_id!=0)
     {
@@ -613,7 +616,12 @@ function deleteFileEntry(document_id,tr_element_id)
             data: {"docId":document_id}, 
             dataType: 'json',
                 success: function(){
-                    document.getElementById(tr_element_id).remove();
+                    tr_element_id.remove();
+                    if(document.getElementById(pid+"-"+argv+"-"+category_sno).disabled==true)
+                        document.getElementById(pid+"-"+argv+"-"+category_sno).disabled=false;    
+                    
+                    document.getElementById(pid+"-"+argv+"-"+category_sno).checked=false;
+                    
                 }
         });
     }
@@ -621,6 +629,10 @@ function deleteFileEntry(document_id,tr_element_id)
     else 
     {
         tr_element_id.remove();
+        if(document.getElementById(pid+"-"+argv+"-"+category_sno).disabled==true)
+            document.getElementById(pid+"-"+argv+"-"+category_sno).disabled=false;    
+                    
+        document.getElementById(pid+"-"+argv+"-"+category_sno).checked=false;
     }
 
 }
@@ -703,9 +715,12 @@ function openEditCommentModal(task_id, row_num)
                     document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).disabled=false;
                     document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).innerText=res[0][2];
 
+                    document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).disabled=false;
+
+                    document.getElementById("editCommentsModal-"+task_id+"-"+row_num).disabled=false;
+
                     if(res[0][3]=='external')
                     {
-                        document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).disabled=false;
                         document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).click();
                     }
                 }
@@ -787,8 +802,9 @@ function editComment(task_id, row_num)
         data: uploadCommentObj, 
         dataType: 'json',
             success: function(){
-                alert("Your Comment is edited successfully!")
-                location.reload();
+                //alert("Your Comment is edited successfully!")
+                //location.reload();
+                openEditCommentModal(task_id, row_num)
             }
     });
 }
