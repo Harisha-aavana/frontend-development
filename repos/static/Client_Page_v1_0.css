@@ -17,7 +17,7 @@
 }
 
 #Dashboard-Search-Icon
-{   
+{
     /* margin-left: 100px; */
     font-size: 12px;
     margin-top: 11px;
@@ -38,10 +38,10 @@ input[type='search']::placeholder
     color: #828282;
     opacity: 0.5;
     font-family: 'BentonSans Regular', sans-serif;
-    
+
 }
 
-input[type='search']:focus 
+input[type='search']:focus
 {
     outline: none !important;
 }
@@ -88,7 +88,7 @@ input[type='search']:focus
 
 #Dashboard-Main-Info-Inner-Details-Box
 {
-    /* margin-top: 10px; */
+     margin-top: -30px;
 }
 
 #Dashboard-Show-Columns-Title
@@ -117,7 +117,7 @@ input[type='search']:focus
     font-size: 14px;
     margin-top: 2px ;
     margin-left: -15px;
-} 
+}
 
 #Dashboard-Show-Columns-Dropdown_List
 {
@@ -136,7 +136,7 @@ input[type='search']:focus
     margin-left: -15px;
     width: 200px;
     text-align: left;
-} 
+}
 
 #Dashboard-Show-Filters-Dropdown_List
 {
@@ -162,11 +162,11 @@ input[type='search']:focus
 
 #Dashboard-Download-Files-Button
 {
-    margin-left: 900px;
+    margin-left: 850px;
     font-size: 12px;
-    font-family: 'BentonSans Regular', sans-serif;  
-    position: relative; 
-    top: 30px;
+    font-family: 'BentonSans Regular', sans-serif;
+    position: relative;
+    top: 60px;
     z-index: 100;
 }
 
@@ -275,7 +275,7 @@ table tbody tr td
     font-family: 'BentonSans Regular', sans-serif;
 }
 
-.paginate_button 
+.paginate_button
 {
     padding: 5px 10px 5px 10px!important;
 

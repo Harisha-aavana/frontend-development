@@ -80,7 +80,7 @@ $(document).ready(function(){
                                 dataType:'json',
                                 success: function(uploadedDocumentList){
                                     // console.log("here")
-                                    
+
                                     for(let j=0;j<uploadedDocumentList.length;j++)
                                     {
                                         // console.log(uploadedDocumentList[j])
@@ -118,7 +118,7 @@ $(document).ready(function(){
 
                             })
 
-                            
+
 
                         });
                     }
@@ -560,7 +560,7 @@ function submitFileForm()
             var file_name = document.getElementById("Uploaded-File-Name-Row-"+file_id).innerText ;
 
             // console.log(selectedFile)
-            
+
             if(selectedFile)
             {
 
@@ -580,7 +580,9 @@ function submitFileForm()
                         success: function(document_id){
                             // console.log(document_id)
                             document.getElementById("Uploaded-File-Delete-Row-"+file_id).setAttribute("onclick","deleteFileEntry("+document_id+",inner_tablebody_tr_"+task_id+"_"+file_id+",'"+project_id+"','"+task_id+"','"+file_id+"')");
-                            
+                            if(i == allUploadedCategories.length-1){
+                                location.reload();
+                            }
                         }
                     });
             }
@@ -594,7 +596,6 @@ function submitFileForm()
 
         }
     }
-    location.reload();
 }
 
 function deleteFileEntry(document_id,tr_element_id,pid,argv,category_sno)
@@ -604,31 +605,31 @@ function deleteFileEntry(document_id,tr_element_id,pid,argv,category_sno)
     // console.log(pid)
     // console.log(argv)
     // console.log(category_sno)
-    
+
     if(document_id!=0)
     {
         $.ajax({
             type: "POST",
             url: "/delete_document",
-            data: {"docId":document_id}, 
+            data: {"docId":document_id},
             dataType: 'json',
                 success: function(){
                     tr_element_id.remove();
                     if(document.getElementById(pid+"-"+argv+"-"+category_sno).disabled==true)
-                        document.getElementById(pid+"-"+argv+"-"+category_sno).disabled=false;    
-                    
+                        document.getElementById(pid+"-"+argv+"-"+category_sno).disabled=false;
+
                     document.getElementById(pid+"-"+argv+"-"+category_sno).checked=false;
-                    
+
                 }
         });
     }
 
-    else 
+    else
     {
         tr_element_id.remove();
         if(document.getElementById(pid+"-"+argv+"-"+category_sno).disabled==true)
-            document.getElementById(pid+"-"+argv+"-"+category_sno).disabled=false;    
-                    
+            document.getElementById(pid+"-"+argv+"-"+category_sno).disabled=false;
+
         document.getElementById(pid+"-"+argv+"-"+category_sno).checked=false;
     }
 
@@ -656,7 +657,7 @@ function openAddCommentModal(task_id, row_num)
 
 function openEditCommentModal(task_id, row_num)
 {
-    
+
     // console.log(task_id)
     // console.log(row_num)
 
@@ -693,7 +694,6 @@ function openEditCommentModal(task_id, row_num)
                 tableBody.innerHTML='';
                 if(res.length>0)
                 {
-
                     for(let i=0;i<res.length;i++)
                     {
                         var recordEntry=res[i];
@@ -709,9 +709,8 @@ function openEditCommentModal(task_id, row_num)
                         tableBody.appendChild(tr_element);
 
                     }
-
                     document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).disabled=false;
-                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).innerText=res[0][2];
+                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).value=res[0][2];
 
                     document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).disabled=false;
 
@@ -725,7 +724,7 @@ function openEditCommentModal(task_id, row_num)
 
                 else
                 {
-                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).innerText="";
+                    document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).value="";
                     document.getElementById("editCommentTextarea-"+task_id+"-"+row_num).disabled=true;
                     document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).checked=false;
                     document.getElementById("edit-check-internal-external-"+task_id+"-"+row_num).disabled=true;
@@ -738,7 +737,7 @@ function openEditCommentModal(task_id, row_num)
 
 function addComment(task_id, row_num)
 {
-    
+
     // console.log("AJAX Add Comment",task_id,row_num)
 
     var comment = document.getElementById("addCommentTextarea-"+task_id+"-"+row_num).value;

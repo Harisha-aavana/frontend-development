@@ -47,7 +47,7 @@
                         <li>
                             <button class="btn btn-primary" style="font-size:10px;margin-top: 15px;margin-left: 20px;" onclick="applyFilter()">Apply Filter</button>
                         </li>
-                        
+
                     </ul>
                     </div>
             </div>
@@ -74,7 +74,7 @@
                             <input class="form-check-input" type="checkbox" value="Locality" id="flexCheckDefault-showColumns-1">
                             <label class="form-check-label" for="flexCheckDefault">Locailty</label>
                             </div>
-                        </li>                                                                          
+                        </li>
                     </ul>
                     </div>
             </div>
@@ -85,7 +85,7 @@
             <div class="col-md-2"><i id="Dashboard-Search-Icon" class="fa fa-search" aria-hidden="true"></i></div>
             <div class="col-md-10"><input type="text" id="search-input" class="form-control input-lg" placeholder="Search for Entity Name, Locailty, Document Status etc" autocomplete="off" spellcheck="false" autocorrect="off" value=""></div>
         </div>
-        
+
     </div>
 </div>
 
@@ -115,14 +115,14 @@
                                             </div>
 
                                         </div>
-                
+
 
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
-                    </div>    
+                    </div>
                 </div> -->
                 <div class="row" id="Dashboard-Data-Table-Content-Box">
                     <div class="col-md-12">
@@ -144,15 +144,15 @@
                                     </div>
 
                                 </div>
-        
+
 
                             </div>
                         </div>
 
                         <div class="show">
-                            <button class="btn btn-primary" type="button" id="Dashboard-Refresh-Files-Button" style="font-size: 12px;margin-left: 1000px;padding-left: 10px;font-family: 'BentonSans Regular', sans-serif;margin-top:-2px" onclick="location.reload()">Refresh All
+                            <button class="btn btn-primary" type="button" id="Dashboard-Refresh-Files-Button" style="position: relative; top: 28px; z-index: 100; font-size: 12px;margin-left: 950px;padding-left: 10px;font-family: 'BentonSans Regular', sans-serif;" onclick="location.reload()">Refresh All
                         </div>
-                        
+
                         <div class="table-responsive" id="Main-Data-Table-Div">
                             <table class="table" id="Main-Data-Table-Content" style="width: 200%;">
                                 <thead id="Dashboard-Data-Table-Header-Row">
@@ -168,9 +168,9 @@
                                     </tr>
                                     </thead>
                                     <tbody id="Dashboard-Data-Table-Body-Row">
-                                    
+
                                     </tbody>
-                                    
+
                             </table>
                         </div>
                     </div>
@@ -178,13 +178,13 @@
             </div>
         </div>
     </div>
-</div>                        
-    
+</div>
+
 <!-- Modal -->
 <div id="myModal" class="modal" role="dialog">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg">        
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" style="overflow: initial !important;">
             <div class="modal-header" style="border: none;">
                 <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
                 <!-- <h5 class="modal-title" style="margin-left: 10px;">Select Document Types </h5> -->
@@ -196,7 +196,7 @@
                                 Add Document Categories
                             </button>
                             <div class="dropdown-menu" id="MultiSelect-Dropdown-Menu" aria-labelledby="multiSelectDropdown" style="width: 240px;height: 40vh;overflow-y: scroll;">
-                                
+
                             </div>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                                     Add Document Categories
                                 </button>
                                 <div class="dropdown-menu" id="MultiSelect-Dropdown-Menu" aria-labelledby="multiSelectDropdown">
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -234,27 +234,27 @@
                                         </tr>
                                         </thead>
                                         <tbody id="Dashboard-Modal-Table-Body-Row">
-                                                                                        
+
                                         </tbody>
-                                        
+
                                 </table>
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
             <div class="modal-footer" style="border-style: none !important;">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" style="font-size: 13px;" id="addCategory" onclick="submitFileForm()">Save Changes</button>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 
 
 <!-- Add Comment Modal -->
 <div id="commentModal" class="modal" role="dialog">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg">        
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="border: none; ">
@@ -267,7 +267,7 @@
                         <div class="col-md-12">
                             <textarea rows="5" cols="100" name="comment" id="addCommentTextarea" spellcheck="false" style="border: 1px solid #dee2e6;font-size:13px;"></textarea>
                         </div>
-                        
+
                     </div>
                     <div class="row">
 
@@ -275,7 +275,7 @@
                             <input type="checkbox" id="check-internal-external">
                         </div>
                         <div class="col-md-6" style="margin-top: 4px; margin-left: -350px;">
-                            <span style="font-size: 12px;"> Mark this comment as external </span>                   
+                            <span style="font-size: 12px;"> Mark this comment as external </span>
                     </div>
                     </div>
                 </div>
@@ -283,14 +283,14 @@
             <div class="modal-footer" style="border-style: none !important;">
                 <button type="button" class="btn btn-primary" data-dismiss="modal" style="font-size: 13px;" id="addCommentsModal" onclick="addComment()">Save Changes</button>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 
 
 <!-- Edit Comment Modal -->
 <div id="editModal" class="modal" role="dialog">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg">        
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="border: none; ">
@@ -303,7 +303,7 @@
                         <div class="col-md-12">
                             <textarea rows="5" cols="100" name="comment" id="addCommentTextarea" spellcheck="false" style="border: 1px solid #dee2e6;font-size:13px;"></textarea>
                         </div>
-                        
+
                     </div>
                     <div class="row">
 
@@ -311,21 +311,21 @@
                             <input type="checkbox" id="check-internal-external">
                         </div>
                         <div class="col-md-5" style="margin-top: 4px;">
-                            <span style="font-size: 12px;margin-left: -100px;"> Mark this comment as external </span>                   
+                            <span style="font-size: 12px;margin-left: -100px;"> Mark this comment as external </span>
                         </div>
                         <div class="col-md-5" style="margin-top: 4px;">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="font-size: 13px;margin-left: 115px;" id="editCommentsModal" onclick="editComment()">Add Comment</button>                 
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="font-size: 13px;margin-left: 115px;" id="editCommentsModal" onclick="editComment()">Add Comment</button>
                         </div>
 
                     </div>
-                </div>  
-                
+                </div>
+
                 <div class="container" id="Edit-Comment-Modal-Content-Box" style="margin-top: 80px;">
                     <div class="row">
                         <div class="col-md-12">
                             <textarea rows="5" cols="100" name="comment" id="editComment" spellcheck="false" style="border: 1px solid #dee2e6;font-size: 13px;"></textarea>
                         </div>
-                        
+
                     </div>
                     <div class="row">
 
@@ -333,10 +333,10 @@
                             <input type="checkbox" id="edit-check-internal-external">
                         </div>
                         <div class="col-md-5" style="margin-top: 4px;">
-                            <span style="font-size: 12px;margin-left: -100px;"> Mark this comment as external </span>                   
+                            <span style="font-size: 12px;margin-left: -100px;"> Mark this comment as external </span>
                         </div>
                         <div class="col-md-5" style="margin-top: 4px;">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="font-size: 13px;margin-left: 115px;" id="editCommentsModal" onclick="editComment()">Edit Comment</button>                 
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="font-size: 13px;margin-left: 115px;" id="editCommentsModal" onclick="editComment()">Edit Comment</button>
                         </div>
 
                     </div>
@@ -347,7 +347,7 @@
                                 <table id="Comment-History-Modal-Main-Table" class="table" style="width: 90%;">
                                     <thead id="Comment-Modal-Table-Header-Row">
                                         <tr>
-                                            
+
                                             <th width="20%">Date</th>
                                             <th width="60%" style="text-align: center;">Comment</th>
                                             <th width="20%">Comment Type</th>
@@ -356,21 +356,21 @@
 
                                         <tbody id="Comment-Modal-Table-Body-Row">
                                         </tbody>
-                                    
+
                                 </table>
                             </div>
-                        </div>    
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer" style="border-style: none !important;">
-                
+
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 
-  
+
 <!-- Search for Assigned Dates Modal -->
 <div class="modal fade" id="dateModal" tabindex="-1" aria-labelledby="dateModalLabel" aria-hidden="true" style="margin-top:-80px;">
 <div class="modal-dialog modal-dialog-centered">
@@ -460,6 +460,6 @@
         </div>
     </div>
     </div>
-  
+
 
 {% endblock %}
